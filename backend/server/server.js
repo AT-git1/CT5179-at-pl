@@ -31,7 +31,7 @@ app.post('/api', express.json(), (req, res) => {
     });
 });
 
-// React on 3000, express on 3001
+// express 3001
 app.listen(3001, () => {
     console.log('Server listening on port 3001');
 });
