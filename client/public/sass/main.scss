@@ -1,0 +1,11 @@
+// Override Bootstrap primary color
+$primary: rgba(35, 162, 42, 0.91);
+
+// Import Bootstrap's Sass files
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Import index-specific styles
+@import "index";
+
+// Import results-specific styles
+@import "results";

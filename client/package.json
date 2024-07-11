@@ -1,0 +1,33 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "concurrently \"nodemon ./bin/www\" \"npm run sass\"",
+    "sass": "sass --watch public/sass/main.scss:public/stylesheets/style.css",
+    "build-sass": "sass public/sass/main.scss:public/stylesheets/style.css"
+},
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "axios": "^1.7.2",
+    "bootstrap": "^5.3.3",
+    "cookie-parser": "~1.4.4",
+    "debug": "4.3.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-validator": "^7.1.0",
+    "http-errors": "~1.6.3",
+    "jquery": "^3.7.1",
+    "moment": "^2.30.1",
+    "morgan": "~1.9.1",
+    "popper.js": "^1.16.1",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.3",
+    "sass": "^1.77.4"
+  }
+}

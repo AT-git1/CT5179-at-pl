@@ -1,0 +1,44 @@
+.custom-radio-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-radio {
+  flex: 0 0 48%; // Make each button occupy 48% of the width with some space in between
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-radius: .25rem;
+}
+
+.btn-check:checked + .btn-outline-primary {
+  color: $primary;
+  border-color: $primary;
+  background-color: transparent; // Ensure background remains the same
+}
+
+.btn-check:checked + .btn-outline-primary::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: .5em;
+  border-radius: 50%;
+  background: $primary;
+}
+
+.btn-outline-primary {
+  border: 2px solid #ced4da;
+  background-color: transparent; // Ensure background remains the same
+}
+
+.btn-outline-primary::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: .5em;
+  border-radius: 50%;
+  border: 2px solid #ced4da;
+}

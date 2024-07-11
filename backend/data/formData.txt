@@ -1,0 +1,5 @@
+{"region":"urban","meterType":"24 Hour Meter","usageType":"spend","spendAmount":"100","kwhAmount":null,"cashback":"yes"}
+{"region":"rural","meterType":"24 Hour Meter","usageType":"kwh","spendAmount":"","kwhAmount":"333","cashback":"no"}
+{"region":"urban","meterType":"24 Hour Meter","usageType":"spend","spendAmount":"122","kwhAmount":"","cashback":"yes"}
+{"region":"rural","meterType":"24 Hour Meter","usageType":"kwh","spendAmount":"","kwhAmount":"3121","cashback":"no"}
+{"region":"rural","meterType":"24 Hour Meter","usageType":"spend","spendAmount":"35","kwhAmount":"","cashback":"yes"}

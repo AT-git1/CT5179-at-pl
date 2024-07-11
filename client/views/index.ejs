@@ -1,0 +1,96 @@
+<h1 class="text-center mb-4">Electricity Comparison</h1>
+<form id="compareForm" class="row g-3 justify-content-center" action="/compare" method="POST">
+  <% if (errors.length > 0) { %>
+    <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+      <div class="alert alert-danger text-center error-message">
+        <ul class="mb-0">
+          <% errors.forEach(function(error) { %>
+            <li><%= error.msg %></li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+  <% } %>
+
+  <div class="col-12 col-md-12 col-lg-10">
+    <div class="row mb-3">
+      <label for="region" class="col-md-4 col-form-label">Electricity Supply Region:</label>
+      <div class="col-md-8">
+        <div class="input-group">
+          <select id="region" name="region" class="form-select">
+            <option value="urban" <%= formData.region === 'urban' ? 'selected' : '' %>>Urban</option>
+            <option value="rural" <%= formData.region === 'rural' ? 'selected' : '' %>>Rural</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <span class="d-block text-primary mt-1" data-bs-toggle="tooltip" data-bs-placement="top" title="In order to present you with the most accurate comparison results, we need to know if you are a Rural or Urban customer.">
+          <i class="fas fa-question-circle"></i> What's this?
+        </span>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="meterType" class="col-md-4 col-form-label">Meter Type:</label>
+      <div class="col-md-8">
+        <input type="text" id="meterType" name="meterType" value="24 Hour Meter" class="form-control" readonly>
+      </div>
+      <div class="col-md-4">
+        <span class="d-block text-primary mt-1" data-bs-toggle="tooltip" data-bs-placement="top" title="This is your meter type.">
+          <i class="fas fa-question-circle"></i> What's this?
+        </span>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="usageType" class="col-md-4 col-form-label">Annual Electricity Usage:</label>
+      <div class="col-md-8">
+        <div class="input-group">
+          <select id="usageType" name="usageType" class="form-select">
+            <option value="unknown" <%= formData.usageType === 'unknown' ? 'selected' : '' %>>I don't know</option>
+            <option value="spend" <%= formData.usageType === 'spend' ? 'selected' : '' %>>I know how much I spend in €</option>
+            <option value="kwh" <%= formData.usageType === 'kwh' ? 'selected' : '' %>>I know how much kWh I consume</option>
+          </select>
+        </div>
+        <div class="input-group mt-2" id="spendAmountContainer" style="<%= formData.usageType === 'spend' ? 'display:flex;' : 'display:none;' %>">
+          <input type="number" id="spendAmount" name="spendAmount" class="form-control text-center" value="<%= formData.spendAmount %>">
+          <span class="input-group-text col-auto">€</span>
+        </div>
+        <div class="input-group mt-2" id="kwhAmountContainer" style="<%= formData.usageType === 'kwh' ? 'display:flex;' : 'display:none;' %>">
+          <input type="number" id="kwhAmount" name="kwhAmount" class="form-control text-center" value="<%= formData.kwhAmount %>">
+          <span class="input-group-text col-auto">kWh</span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <span class="d-block text-primary mt-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Choose how you know your annual electricity usage.">
+          <i class="fas fa-question-circle"></i> What's this?
+        </span>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="cashback" class="col-md-4 col-form-label">Include cash-back amounts in calculations?</label>
+      <div class="col-md-8 custom-radio-container">
+        <div class="col">
+          <input type="radio" class="btn-check" name="cashback" id="cashbackYes" value="yes" <%= formData.cashback === 'yes' ? 'checked' : '' %> autocomplete="off">
+          <label class="btn btn-outline-primary w-100 custom-radio" for="cashbackYes">Yes</label>
+        </div>
+        <div class="col">
+          <input type="radio" class="btn-check" name="cashback" id="cashbackNo" value="no" <%= formData.cashback === 'no' ? 'checked' : '' %> autocomplete="off">
+          <label class="btn btn-outline-primary w-100 custom-radio" for="cashbackNo">No</label>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <span class="d-block text-primary mt-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Include cash-back amounts in your calculations for more accurate results.">
+          <i class="fas fa-question-circle"></i> What's this?
+        </span>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary">Compare prices</button>
+      </div>
+    </div>
+  </div>
+</form>

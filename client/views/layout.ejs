@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= (typeof title != "undefined" ? title : "") %></title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<%- include('partials/header') %>
+
+<div class="container d-flex justify-content-center align-items-center flex-grow-1">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-8">
+            <%- body %>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
+
+<script src="/jquery/jquery.min.js"></script>
+<script src="/popper/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/javascripts/main.js"></script>
+</body>
+</html>

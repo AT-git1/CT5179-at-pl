@@ -1,0 +1,39 @@
+<div class="container my-4">
+    <h1 class="text-center mb-4"><%= title %></h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Plan Name</th>
+                <th>Supplier</th>
+                <th>Cost</th>
+                <th>Savings</th>
+                <th>Cash-back</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="best-plan">
+                <td><%= results.bestPlan.planName %></td>
+                <td><%= results.bestPlan.supplier %></td>
+                <td><%= results.bestPlan.cost %></td>
+                <td><%= results.bestPlan.savings %></td>
+                <td><%= results.bestPlan.cashBack %></td>
+            </tr>
+            <% results.plans.forEach(function(plan) { %>
+                <% if (plan.planName !== results.bestPlan.planName) { %>
+                    <tr>
+                        <td><%= plan.planName %></td>
+                        <td><%= plan.supplier %></td>
+                        <td><%= plan.cost %></td>
+                        <td><%= plan.savings %></td>
+                        <td><%= plan.cashBack %></td>
+                    </tr>
+                <% } %>
+            <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/" class="btn btn-primary">Compare Prices Again</a>
+    </div>
+</div>
