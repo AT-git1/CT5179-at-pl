@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ```
 ---
 # EnerSave Application
@@ -55,3 +56,7 @@ npm run dev
 
 This will start both the client and the server in development mode, with live reloading enabled for the client.
 ```
+=======
+# CT5179-at-pl
+CT5179 Project - AT &amp; PL
+>>>>>>> upstream/main
