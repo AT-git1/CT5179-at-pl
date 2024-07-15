@@ -1,0 +1,12 @@
+{
+  "name": "fullstack",
+  "version": "1.0.0",
+  "scripts": {
+    "server": "cd server && node server.js",
+    "client": "cd client && npm run build-sass && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
