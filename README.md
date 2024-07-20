@@ -24,15 +24,15 @@ Follow these steps to get your development environment running:
 
 
 ### Using Docker
-cd to Docker/prod
+3. cd to Docker/prod
 
-run the following command
+4. run the following command
 
 
 ``` docker-compose up --build ```
 
 
-You can access the app in your browser at
+5. You can access the app in your browser at
 
 
 ``` https://localhost:3001 ```
