@@ -7,7 +7,7 @@
     "dev": "concurrently \"nodemon ./bin/www\" \"npm run sass\"",
     "sass": "sass --watch public/sass/main.scss:public/stylesheets/style.css",
     "build-sass": "sass public/sass/main.scss:public/stylesheets/style.css"
-},
+  },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.2",
