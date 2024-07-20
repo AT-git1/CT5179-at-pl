@@ -1,4 +1,3 @@
-
 # EnerSave Application
 
 EnerSave is a web application designed to help users with 24-hour electricity meters compare smart electricity meter plans. It scrapes energy prices from various websites and displays the best plans in a table format based on user inputs.
@@ -37,10 +36,10 @@ cd into the main folder
 
 You can run both parts using the following command
 
-```cd ../../backend/server && npm install && cd ../../client && npm install && npm run dev```
 
+```cd ../../backend/server && npm install && cd ../../client && npm install && npm run dev```
 
 You can now access the application on
 
-```http://localhost:3000```
 
+```http://localhost:3000```

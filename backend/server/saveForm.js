@@ -31,6 +31,7 @@ router.post('/save-form', express.json(), (req, res) => {
     fs.mkdirSync(dataDir);
   }
 
+  // Append the form data to the file
   fs.appendFile(filePath, JSON.stringify(formData) + '\n', (err) => {
     if (err) {
       console.error('Error saving form data:', err);
