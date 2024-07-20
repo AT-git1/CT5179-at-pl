@@ -11,6 +11,10 @@ These instructions will get you a copy of the project up and running on your loc
 
 Before running the application, ensure you have Node.js and npm installed on your system. You can download them from [https://nodejs.org/](https://nodejs.org/).
 
+On Mac you can install node.js using the following brew command
+
+```brew install node```
+
 ### Installing
 
 Follow these steps to get your development environment running:
@@ -20,7 +24,7 @@ Follow these steps to get your development environment running:
 2. Navigate to the project directory:
 
 
-cd path/to/fullstack
+```cd path/to/app```
 
 
 Install dependencies for both the client and server parts of the application:
@@ -29,29 +33,14 @@ For the server:
 #### Running the Application
 The application consists of two main parts: the client and the server. You will need to run both for the application to work properly.
 
-To run the server:
+cd into the main folder
 
-cd backend/server
-npm start
+You can run both parts using the following command
 
-This will start the server on port 3001.
-
-To run the client:
-
-cd ../../client
-npm start
+```cd ../../backend/server && npm install && cd ../../client && npm install && npm run dev```
 
 
-This will start the client on port 3000 and should automatically open a browser window with the application. If it doesn't, you can manually navigate to http://localhost:3000 in your browser.
+You can now access the application on
 
-#### Development Mode
-To run both the client and the server concurrently in development mode, you can use the dev script from the root of the project:
-
-
-npm run dev
-
-
-This will start both the client and the server in development mode, with live reloading enabled for the client.
-
-
+```http://localhost:3000```
 
