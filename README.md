@@ -32,5 +32,7 @@ run the following command
 ``` docker-compose up --build ```
 
 
+You can access the app in your browser using
+``` https://localhost:3001 ```
 
 
