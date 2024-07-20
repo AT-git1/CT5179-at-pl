@@ -26,15 +26,8 @@ Follow these steps to get your development environment running:
 ```cd path/to/app```
 
 
-Install dependencies for both the client and server parts of the application:
-For the server:
-
 #### Running the Application
 The application consists of two main parts: the client and the server. You will need to run both for the application to work properly.
-
-cd into the main folder
-
-You can run both parts using the following command
 
 
 ```cd ../../backend/server && npm install && cd ../../client && npm install && npm run dev```
