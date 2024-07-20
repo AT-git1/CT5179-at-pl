@@ -21,7 +21,7 @@ router.post('/compare', [
   const formData = req.body;
 
   if (!errors.isEmpty()) {
-    return res.status(400).render('index', { title: 'Energy Prices Comparator', formData, errors: errors.array() });
+    return res.status(400).render('index', { title: 'Enersave - Electricity Price Comparator', formData, errors: errors.array() });
   }
 
   try {

@@ -1,3 +1,11 @@
+/**
+ * The code defines functions to scrape electricity pricing information from different providers'
+ * websites and returns the prices for specified providers.
+ * @returns The `getPrices` function returns an object containing pricing information for different
+ * energy providers based on the input parameters. The object includes data for Yuno, Pinergy, Electric
+ * Ireland (elec), and Energia. Each provider's data includes unit price, standing charge, obligation
+ * payment, and service charge (where applicable) for both urban and rural locations.
+ */
 import axios from "axios";
 import * as cheerio from "cheerio";
 
