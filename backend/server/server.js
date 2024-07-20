@@ -1,4 +1,3 @@
-
 import express from 'express';
 import dummyData from './dummyResponse.js'; // Import the dummy data
 
@@ -44,6 +43,7 @@ app.post('/api', express.json(), (req, res) => {
 });
 
 //express on 3001
-app.listen(3001, () => {
-    console.log('Server listening on port 3001');
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
