@@ -20,19 +20,17 @@ Follow these steps to get your development environment running:
 
 1. Clone the repository to your local machine.
 
-2. Navigate to the project directory:
+2. Navigate to the project directory where you will use Docker to run the app
 
 
-```cd path/to/app```
+### Using Docker
+cd to Docker/prod
+
+run the following command
 
 
-#### Running the Application
-The application consists of two main parts: the client and the server. You will need to run both for the application to work properly.
+``` docker-compose up --build ```
 
 
-```cd ../../backend/server && npm install && cd ../../client && npm install && npm run dev```
-
-You can now access the application on
 
 
-```http://localhost:3000```
