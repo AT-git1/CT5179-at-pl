@@ -1,0 +1,576 @@
+  console.log
+    [
+      {
+        planName: 'EnergySaver Dual 28%',
+        electricityUnitPrice: '25.80c per kWh',
+        gasUnitPrice: '8.644c per kWh',
+        firstYearCost: '€2,562',
+        estimatedAnnualBill: '€2,562'
+      },
+      {
+        planName: 'EnergySaver Dual NightSaver 28%',
+        electricityUnitPrice: '',
+        gasUnitPrice: '8.644c per kWh',
+        firstYearCost: '€2,491',
+        estimatedAnnualBill: '€2,491'
+      },
+      {
+        planName: 'Green Electricity & Gas',
+        electricityUnitPrice: '32.95c per kWh',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€3,121',
+        estimatedAnnualBill: '€3,121'
+      },
+      {
+        planName: 'Green Electricity NightSaver & Gas',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€3,010',
+        estimatedAnnualBill: '€3,010'
+      },
+      {
+        planName: 'HomeDual + Saver 30%',
+        electricityUnitPrice: '25.08c per kWh',
+        gasUnitPrice: '8.404c per kWh',
+        firstYearCost: '€2,406',
+        estimatedAnnualBill: '€2,506'
+      },
+      {
+        planName: 'Home Dual+ Night Boost',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,987',
+        estimatedAnnualBill: '€2,987'
+      },
+      {
+        planName: 'Home Dual+ Night Boost EV',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,687',
+        estimatedAnnualBill: '€2,987'
+      },
+      {
+        planName: 'Home Dual+ SST',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,982',
+        estimatedAnnualBill: '€2,982'
+      },
+      {
+        planName: 'Home Dual+ Weekender',
+        electricityUnitPrice: '35.98c per kWh',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€3,114',
+        estimatedAnnualBill: '€3,114'
+      },
+      {
+        planName: 'Home Dual SST',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,982',
+        estimatedAnnualBill: '€2,982'
+      }
+    ]
+
+      at log (backend/server/parser.js:114:13)
+
+  console.log
+    {
+      '24hr Urban': {
+        unitRateExVAT: 22.6027,
+        unitRateIncVAT: 24.633,
+        standingChargeExVAT: 187.98,
+        standingChargeIncVAT: 204.89
+      },
+      'D/N Urban': {
+        dayUnitRateExVAT: 26.4829,
+        dayUnitRateIncVAT: 28.8631,
+        nightUnitRateExVAT: 16.5416,
+        nightUnitRateIncVAT: 18.0318,
+        standingChargeExVAT: 119.72,
+        standingChargeIncVAT: 130.49
+      },
+      '24hr Rural': {
+        unitRateExVAT: 22.6027,
+        unitRateIncVAT: 24.633,
+        standingChargeExVAT: 244.55,
+        standingChargeIncVAT: 266.56
+      },
+      'D/N Rural': {
+        dayUnitRateExVAT: 26.4829,
+        dayUnitRateIncVAT: 28.8631,
+        nightUnitRateExVAT: 16.5416,
+        nightUnitRateIncVAT: 18.0318,
+        standingChargeExVAT: 204.4,
+        standingChargeIncVAT: 222.8
+      }
+    }
+
+      at log (backend/server/parser.js:85:13)
+
+  console.log
+    {
+      '24hr Urban': {
+        unitRateExVAT: 22.6027,
+        unitRateIncVAT: 24.633,
+        standingChargeExVAT: 187.98,
+        standingChargeIncVAT: 204.89
+      },
+      'D/N Urban': {
+        dayUnitRateExVAT: 26.4829,
+        dayUnitRateIncVAT: 28.8631,
+        nightUnitRateExVAT: 16.5416,
+        nightUnitRateIncVAT: 18.0318,
+        standingChargeExVAT: 119.72,
+        standingChargeIncVAT: 130.49
+      },
+      '24hr Rural': {
+        unitRateExVAT: 22.6027,
+        unitRateIncVAT: 24.633,
+        standingChargeExVAT: 244.55,
+        standingChargeIncVAT: 266.56
+      },
+      'D/N Rural': {
+        dayUnitRateExVAT: 26.4829,
+        dayUnitRateIncVAT: 28.8631,
+        nightUnitRateExVAT: 16.5416,
+        nightUnitRateIncVAT: 18.0318,
+        standingChargeExVAT: 204.4,
+        standingChargeIncVAT: 222.8
+      }
+    }
+
+      at log (backend/server/parser.js:85:13)
+
+  console.log
+    [
+      {
+        planName: 'EnergySaver Dual 28%',
+        electricityUnitPrice: '25.80c per kWh',
+        gasUnitPrice: '8.644c per kWh',
+        firstYearCost: '€2,562',
+        estimatedAnnualBill: '€2,562'
+      },
+      {
+        planName: 'EnergySaver Dual NightSaver 28%',
+        electricityUnitPrice: '',
+        gasUnitPrice: '8.644c per kWh',
+        firstYearCost: '€2,491',
+        estimatedAnnualBill: '€2,491'
+      },
+      {
+        planName: 'Green Electricity & Gas',
+        electricityUnitPrice: '32.95c per kWh',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€3,121',
+        estimatedAnnualBill: '€3,121'
+      },
+      {
+        planName: 'Green Electricity NightSaver & Gas',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€3,010',
+        estimatedAnnualBill: '€3,010'
+      },
+      {
+        planName: 'HomeDual + Saver 30%',
+        electricityUnitPrice: '25.08c per kWh',
+        gasUnitPrice: '8.404c per kWh',
+        firstYearCost: '€2,406',
+        estimatedAnnualBill: '€2,506'
+      },
+      {
+        planName: 'Home Dual+ Night Boost',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,987',
+        estimatedAnnualBill: '€2,987'
+      },
+      {
+        planName: 'Home Dual+ Night Boost EV',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,687',
+        estimatedAnnualBill: '€2,987'
+      },
+      {
+        planName: 'Home Dual+ SST',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,982',
+        estimatedAnnualBill: '€2,982'
+      },
+      {
+        planName: 'Home Dual+ Weekender',
+        electricityUnitPrice: '35.98c per kWh',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€3,114',
+        estimatedAnnualBill: '€3,114'
+      },
+      {
+        planName: 'Home Dual SST',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,982',
+        estimatedAnnualBill: '€2,982'
+      }
+    ]
+
+      at log (backend/server/parser.js:114:13)
+
+  console.log
+    [
+      {
+        planName: '1. Pinergy Lifestyle ‘Working from Home Time’ Electricity Rates2. Pinergy Lifestyle ‘Family Time’ Electricity Rates3. Pinergy Lifestyle ‘EV Drive Time’ Electricity Rates4. Pinergy Lifestyle ‘Standard Smart Tariff’ Electricity Rates',
+        unitPriceExVAT: '23.7833.9720.3833.975.0033.97                   33.97                   25.84                   36.37',
+        unitPriceIncVAT: '25.9237.0322.2237.035.4537.0336.9028.1639.65',
+        standingChargeExVAT: 'Cent per day71.25Unit Rate Estimate for YearCent per day71.25Unit Rate Estimate for YearCent per day71.25Unit Rate Estimate for YearCent per day71.25Unit Rate Estimate for Year',
+        standingChargeIncVAT: 'Annual Euro77.66Standing Charge for YearAnnual Euro77.66Standing Charge for YearAnnual Euro77.66Standing Charge for YearAnnual Euro77.66Standing Charge for Year',
+        eabExVAT: '€                  1,393.72 €                  1,384.08 €                  1,476.90 €                  1,419.81',
+        eabIncVAT: '€            283.47 €            283.47 €            283.47 €            283.47'
+      },
+      {
+        planName: '1. Standard 24 Hr Urban Electricity Rates2. Standard 24 Hr Rural Electricity Rates3. Urban NightSaver Electricity Rates4. Rural NightSaver Electricity RatesSundry Charges',
+        unitPriceExVAT: '33.9733.9734.8824.7634.8824.76',
+        unitPriceIncVAT: '37.0337.0338.0226.9838.0226.98',
+        standingChargeExVAT: 'Cent per day                    71.25Unit Rate Estimate for YearCent per day              78.87Unit Rate Estimate for YearCent per day                 77.65Unit Rate Estimate for YearCent per day96.11Unit Rate Estimate for Year',
+        standingChargeIncVAT: 'Annual Euro                     77.66Standing Charge for YearAnnual Euro                 85.97Standing Charge for YearAnnual Euro                       84.64Standing Charge for YearAnnual Euro104.76Standing Charge for Year',
+        eabExVAT: '€                1,555.15 €                  1,555.15 €                  1,420.74 €                  1,420.74',
+        eabIncVAT: '€            283.47 €            313.78 €            308.94 €            382.38'
+      }
+    ]
+
+      at log (backend/server/parser.js:147:13)
+
+  console.log
+    {
+      'Electricity 24 Hour Prices': [],
+      'Electricity 24 Hour Standing Charges': [],
+      'Electricity Day Night Prices': [],
+      'Electricity Day Night Standing Charges': [],
+      'Electricity Night Storage Prices': [],
+      'Electricity Night Storage Standing Charges': [],
+      'Electricity Standard Smart Meter Prices': [],
+      'Electricity Standard Smart Meter Standing Charges': [],
+      'Electricity Interval Smart Meter Prices': [],
+      'Electricity Interval Smart Meter Standing Charges': [],
+      'Gas Meter Prices': [],
+      'Gas Standing Charges': []
+    }
+
+      at log (backend/server/parser.js:206:13)
+
+  console.log
+    {
+      '24hr Urban': {
+        unitRateExVAT: 22.6027,
+        unitRateIncVAT: 24.633,
+        standingChargeExVAT: 187.98,
+        standingChargeIncVAT: 204.89
+      },
+      'D/N Urban': {
+        dayUnitRateExVAT: 26.4829,
+        dayUnitRateIncVAT: 28.8631,
+        nightUnitRateExVAT: 16.5416,
+        nightUnitRateIncVAT: 18.0318,
+        standingChargeExVAT: 119.72,
+        standingChargeIncVAT: 130.49
+      },
+      '24hr Rural': {
+        unitRateExVAT: 22.6027,
+        unitRateIncVAT: 24.633,
+        standingChargeExVAT: 244.55,
+        standingChargeIncVAT: 266.56
+      },
+      'D/N Rural': {
+        dayUnitRateExVAT: 26.4829,
+        dayUnitRateIncVAT: 28.8631,
+        nightUnitRateExVAT: 16.5416,
+        nightUnitRateIncVAT: 18.0318,
+        standingChargeExVAT: 204.4,
+        standingChargeIncVAT: 222.8
+      }
+    }
+
+      at log (backend/server/parser.js:85:13)
+
+  console.log
+    Successfully fetched Yuno prices
+
+      at log (backend/server/parser.js:215:21)
+
+  console.log
+    [
+      {
+        planName: 'EnergySaver Dual 28%',
+        electricityUnitPrice: '25.80c per kWh',
+        gasUnitPrice: '8.644c per kWh',
+        firstYearCost: '€2,562',
+        estimatedAnnualBill: '€2,562'
+      },
+      {
+        planName: 'EnergySaver Dual NightSaver 28%',
+        electricityUnitPrice: '',
+        gasUnitPrice: '8.644c per kWh',
+        firstYearCost: '€2,491',
+        estimatedAnnualBill: '€2,491'
+      },
+      {
+        planName: 'Green Electricity & Gas',
+        electricityUnitPrice: '32.95c per kWh',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€3,121',
+        estimatedAnnualBill: '€3,121'
+      },
+      {
+        planName: 'Green Electricity NightSaver & Gas',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€3,010',
+        estimatedAnnualBill: '€3,010'
+      },
+      {
+        planName: 'HomeDual + Saver 30%',
+        electricityUnitPrice: '25.08c per kWh',
+        gasUnitPrice: '8.404c per kWh',
+        firstYearCost: '€2,406',
+        estimatedAnnualBill: '€2,506'
+      },
+      {
+        planName: 'Home Dual+ Night Boost',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,987',
+        estimatedAnnualBill: '€2,987'
+      },
+      {
+        planName: 'Home Dual+ Night Boost EV',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,687',
+        estimatedAnnualBill: '€2,987'
+      },
+      {
+        planName: 'Home Dual+ SST',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,982',
+        estimatedAnnualBill: '€2,982'
+      },
+      {
+        planName: 'Home Dual+ Weekender',
+        electricityUnitPrice: '35.98c per kWh',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€3,114',
+        estimatedAnnualBill: '€3,114'
+      },
+      {
+        planName: 'Home Dual SST',
+        electricityUnitPrice: '',
+        gasUnitPrice: '10.985c per kWh',
+        firstYearCost: '€2,982',
+        estimatedAnnualBill: '€2,982'
+      }
+    ]
+
+      at log (backend/server/parser.js:114:13)
+
+  console.log
+    Successfully fetched Elec prices
+
+      at log (backend/server/parser.js:223:21)
+
+  console.log
+    [
+      {
+        planName: '1. Pinergy Lifestyle ‘Working from Home Time’ Electricity Rates2. Pinergy Lifestyle ‘Family Time’ Electricity Rates3. Pinergy Lifestyle ‘EV Drive Time’ Electricity Rates4. Pinergy Lifestyle ‘Standard Smart Tariff’ Electricity Rates',
+        unitPriceExVAT: '23.7833.9720.3833.975.0033.97                   33.97                   25.84                   36.37',
+        unitPriceIncVAT: '25.9237.0322.2237.035.4537.0336.9028.1639.65',
+        standingChargeExVAT: 'Cent per day71.25Unit Rate Estimate for YearCent per day71.25Unit Rate Estimate for YearCent per day71.25Unit Rate Estimate for YearCent per day71.25Unit Rate Estimate for Year',
+        standingChargeIncVAT: 'Annual Euro77.66Standing Charge for YearAnnual Euro77.66Standing Charge for YearAnnual Euro77.66Standing Charge for YearAnnual Euro77.66Standing Charge for Year',
+        eabExVAT: '€                  1,393.72 €                  1,384.08 €                  1,476.90 €                  1,419.81',
+        eabIncVAT: '€            283.47 €            283.47 €            283.47 €            283.47'
+      },
+      {
+        planName: '1. Standard 24 Hr Urban Electricity Rates2. Standard 24 Hr Rural Electricity Rates3. Urban NightSaver Electricity Rates4. Rural NightSaver Electricity RatesSundry Charges',
+        unitPriceExVAT: '33.9733.9734.8824.7634.8824.76',
+        unitPriceIncVAT: '37.0337.0338.0226.9838.0226.98',
+        standingChargeExVAT: 'Cent per day                    71.25Unit Rate Estimate for YearCent per day              78.87Unit Rate Estimate for YearCent per day                 77.65Unit Rate Estimate for YearCent per day96.11Unit Rate Estimate for Year',
+        standingChargeIncVAT: 'Annual Euro                     77.66Standing Charge for YearAnnual Euro                 85.97Standing Charge for YearAnnual Euro                       84.64Standing Charge for YearAnnual Euro104.76Standing Charge for Year',
+        eabExVAT: '€                1,555.15 €                  1,555.15 €                  1,420.74 €                  1,420.74',
+        eabIncVAT: '€            283.47 €            313.78 €            308.94 €            382.38'
+      }
+    ]
+
+      at log (backend/server/parser.js:147:13)
+
+  console.log
+    Successfully fetched Pinergy prices
+
+      at log (backend/server/parser.js:231:21)
+
+  console.log
+    {
+      'Electricity 24 Hour Prices': [],
+      'Electricity 24 Hour Standing Charges': [],
+      'Electricity Day Night Prices': [],
+      'Electricity Day Night Standing Charges': [],
+      'Electricity Night Storage Prices': [],
+      'Electricity Night Storage Standing Charges': [],
+      'Electricity Standard Smart Meter Prices': [],
+      'Electricity Standard Smart Meter Standing Charges': [],
+      'Electricity Interval Smart Meter Prices': [],
+      'Electricity Interval Smart Meter Standing Charges': [],
+      'Gas Meter Prices': [],
+      'Gas Standing Charges': []
+    }
+
+      at log (backend/server/parser.js:206:13)
+
+  console.log
+    Successfully fetched Energia prices
+
+      at log (backend/server/parser.js:239:21)
+
+  console.log
+    Scraped Prices: {
+      Yuno: {
+        '24hr Urban': {
+          unitRateExVAT: 22.6027,
+          unitRateIncVAT: 24.633,
+          standingChargeExVAT: 187.98,
+          standingChargeIncVAT: 204.89
+        },
+        'D/N Urban': {
+          dayUnitRateExVAT: 26.4829,
+          dayUnitRateIncVAT: 28.8631,
+          nightUnitRateExVAT: 16.5416,
+          nightUnitRateIncVAT: 18.0318,
+          standingChargeExVAT: 119.72,
+          standingChargeIncVAT: 130.49
+        },
+        '24hr Rural': {
+          unitRateExVAT: 22.6027,
+          unitRateIncVAT: 24.633,
+          standingChargeExVAT: 244.55,
+          standingChargeIncVAT: 266.56
+        },
+        'D/N Rural': {
+          dayUnitRateExVAT: 26.4829,
+          dayUnitRateIncVAT: 28.8631,
+          nightUnitRateExVAT: 16.5416,
+          nightUnitRateIncVAT: 18.0318,
+          standingChargeExVAT: 204.4,
+          standingChargeIncVAT: 222.8
+        }
+      },
+      Elec: [
+        {
+          planName: 'EnergySaver Dual 28%',
+          electricityUnitPrice: '25.80c per kWh',
+          gasUnitPrice: '8.644c per kWh',
+          firstYearCost: '€2,562',
+          estimatedAnnualBill: '€2,562'
+        },
+        {
+          planName: 'EnergySaver Dual NightSaver 28%',
+          electricityUnitPrice: '',
+          gasUnitPrice: '8.644c per kWh',
+          firstYearCost: '€2,491',
+          estimatedAnnualBill: '€2,491'
+        },
+        {
+          planName: 'Green Electricity & Gas',
+          electricityUnitPrice: '32.95c per kWh',
+          gasUnitPrice: '10.985c per kWh',
+          firstYearCost: '€3,121',
+          estimatedAnnualBill: '€3,121'
+        },
+        {
+          planName: 'Green Electricity NightSaver & Gas',
+          electricityUnitPrice: '',
+          gasUnitPrice: '10.985c per kWh',
+          firstYearCost: '€3,010',
+          estimatedAnnualBill: '€3,010'
+        },
+        {
+          planName: 'HomeDual + Saver 30%',
+          electricityUnitPrice: '25.08c per kWh',
+          gasUnitPrice: '8.404c per kWh',
+          firstYearCost: '€2,406',
+          estimatedAnnualBill: '€2,506'
+        },
+        {
+          planName: 'Home Dual+ Night Boost',
+          electricityUnitPrice: '',
+          gasUnitPrice: '10.985c per kWh',
+          firstYearCost: '€2,987',
+          estimatedAnnualBill: '€2,987'
+        },
+        {
+          planName: 'Home Dual+ Night Boost EV',
+          electricityUnitPrice: '',
+          gasUnitPrice: '10.985c per kWh',
+          firstYearCost: '€2,687',
+          estimatedAnnualBill: '€2,987'
+        },
+        {
+          planName: 'Home Dual+ SST',
+          electricityUnitPrice: '',
+          gasUnitPrice: '10.985c per kWh',
+          firstYearCost: '€2,982',
+          estimatedAnnualBill: '€2,982'
+        },
+        {
+          planName: 'Home Dual+ Weekender',
+          electricityUnitPrice: '35.98c per kWh',
+          gasUnitPrice: '10.985c per kWh',
+          firstYearCost: '€3,114',
+          estimatedAnnualBill: '€3,114'
+        },
+        {
+          planName: 'Home Dual SST',
+          electricityUnitPrice: '',
+          gasUnitPrice: '10.985c per kWh',
+          firstYearCost: '€2,982',
+          estimatedAnnualBill: '€2,982'
+        }
+      ],
+      Pinergy: [
+        {
+          planName: '1. Pinergy Lifestyle ‘Working from Home Time’ Electricity Rates2. Pinergy Lifestyle ‘Family Time’ Electricity Rates3. Pinergy Lifestyle ‘EV Drive Time’ Electricity Rates4. Pinergy Lifestyle ‘Standard Smart Tariff’ Electricity Rates',
+          unitPriceExVAT: '23.7833.9720.3833.975.0033.97                   33.97                   25.84                   36.37',
+          unitPriceIncVAT: '25.9237.0322.2237.035.4537.0336.9028.1639.65',
+          standingChargeExVAT: 'Cent per day71.25Unit Rate Estimate for YearCent per day71.25Unit Rate Estimate for YearCent per day71.25Unit Rate Estimate for YearCent per day71.25Unit Rate Estimate for Year',
+          standingChargeIncVAT: 'Annual Euro77.66Standing Charge for YearAnnual Euro77.66Standing Charge for YearAnnual Euro77.66Standing Charge for YearAnnual Euro77.66Standing Charge for Year',
+          eabExVAT: '€                  1,393.72 €                  1,384.08 €                  1,476.90 €                  1,419.81',
+          eabIncVAT: '€            283.47 €            283.47 €            283.47 €            283.47'
+        },
+        {
+          planName: '1. Standard 24 Hr Urban Electricity Rates2. Standard 24 Hr Rural Electricity Rates3. Urban NightSaver Electricity Rates4. Rural NightSaver Electricity RatesSundry Charges',
+          unitPriceExVAT: '33.9733.9734.8824.7634.8824.76',
+          unitPriceIncVAT: '37.0337.0338.0226.9838.0226.98',
+          standingChargeExVAT: 'Cent per day                    71.25Unit Rate Estimate for YearCent per day              78.87Unit Rate Estimate for YearCent per day                 77.65Unit Rate Estimate for YearCent per day96.11Unit Rate Estimate for Year',
+          standingChargeIncVAT: 'Annual Euro                     77.66Standing Charge for YearAnnual Euro                 85.97Standing Charge for YearAnnual Euro                       84.64Standing Charge for YearAnnual Euro104.76Standing Charge for Year',
+          eabExVAT: '€                1,555.15 €                  1,555.15 €                  1,420.74 €                  1,420.74',
+          eabIncVAT: '€            283.47 €            313.78 €            308.94 €            382.38'
+        }
+      ],
+      Energia: {
+        'Electricity 24 Hour Prices': [],
+        'Electricity 24 Hour Standing Charges': [],
+        'Electricity Day Night Prices': [],
+        'Electricity Day Night Standing Charges': [],
+        'Electricity Night Storage Prices': [],
+        'Electricity Night Storage Standing Charges': [],
+        'Electricity Standard Smart Meter Prices': [],
+        'Electricity Standard Smart Meter Standing Charges': [],
+        'Electricity Interval Smart Meter Prices': [],
+        'Electricity Interval Smart Meter Standing Charges': [],
+        'Gas Meter Prices': [],
+        'Gas Standing Charges': []
+      }
+    }
+
+      at log (backend/server/parser.js:245:13)
+

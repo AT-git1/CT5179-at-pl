@@ -1,170 +1,243 @@
-/**
- * The code defines functions to scrape electricity pricing information from different providers'
- * websites and returns the prices for specified providers.
- * @returns The `getPrices` function returns an object containing pricing information for different
- * energy providers based on the input parameters. The object includes data for Yuno, Pinergy, Electric
- * Ireland (elec), and Energia. Each provider's data includes unit price, standing charge, obligation
- * payment, and service charge (where applicable) for both urban and rural locations.
- */
-import axios from "axios";
-import * as cheerio from "cheerio";
+import puppeteer from 'puppeteer';
+import * as cheerio from 'cheerio';
+export { getYunoHtml, getElecHtml, getPinergyHtml, getEnergiaHtml, getYunoPrices, getElecPrices, getPinergyPrices, getEnergiaPrices };
+
+async function getHtml(url) {
+    let browser;
+    try {
+        browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.goto(url, { waitUntil: 'networkidle2' });
+        const content = await page.content();
+        return content;
+    } catch (error) {
+        console.error(`Error fetching URL ${url}:`, error);
+        return null;
+    } finally {
+        if (browser) {
+            await browser.close();
+        }
+    }
+}
 
 async function getYunoHtml() {
     const yunoURL = "https://yunoenergy.ie/pricing-page";
-    const yunoRes = await axios.get(yunoURL);
-    return yunoRes.data;
+    return await getHtml(yunoURL);
 }
 
 async function getElecHtml() {
     const elecURL = "https://www.electricireland.ie/switch/new-customer/price-plans?priceType=D";
-    const elecRes = await axios.get(elecURL);
-    return elecRes.data;
+    return await getHtml(elecURL);
 }
 
 async function getPinergyHtml() {
     const pinergyURL = "https://pinergy.ie/terms-conditions/tariffs/?tab=2";
-    const pinergyRes = await axios.get(pinergyURL);
-    return pinergyRes.data;
+    return await getHtml(pinergyURL);
 }
 
 async function getEnergiaHtml() {
     const energiaURL = "https://www.energia.ie/about-energia/our-tariffs";
-    const energiaRes = await axios.get(energiaURL);
-    return energiaRes.data;
+    return await getHtml(energiaURL);
 }
 
 async function getYunoPrices() {
-    const yunoHtml = await getYunoHtml();
-    const $ = cheerio.load(yunoHtml);
+    const data = await getYunoHtml();
+    if (!data) return null;
+    const $ = cheerio.load(data);
 
-    // Example selectors, adjust as needed
-    const urbanPrice = parseFloat($("selector-for-urban-price").text());
-    const ruralPrice = parseFloat($("selector-for-rural-price").text());
-    const urbanStandingCharge = parseFloat($("selector-for-urban-standing-charge").text());
-    const ruralStandingCharge = parseFloat($("selector-for-rural-standing-charge").text());
-
-    const yuno = {
-        "urban": {
-            "unitPriceCents": urbanPrice,
-            "standingChargeAnnual": urbanStandingCharge,
-            "obligationPayment": 0.00
+    const prices = {
+        '24hr Urban': {
+            unitRateExVAT: parseFloat($("table:contains('24hr Urban') tbody tr:nth-child(1) td:nth-child(2)").text().replace(' cent/kWh', '')),
+            unitRateIncVAT: parseFloat($("table:contains('24hr Urban') tbody tr:nth-child(1) td:nth-child(3)").text().replace(' cent/kWh', '')),
+            standingChargeExVAT: parseFloat($("table:contains('24hr Urban') tbody tr:nth-child(2) td:nth-child(2)").text().replace('€', '').replace(' Annually', '')),
+            standingChargeIncVAT: parseFloat($("table:contains('24hr Urban') tbody tr:nth-child(2) td:nth-child(3)").text().replace('€', '').replace(' Annually', ''))
         },
-        "rural": {
-            "unitPriceCents": ruralPrice,
-            "standingChargeAnnual": ruralStandingCharge,
-            "obligationPayment": 0.00
+        'D/N Urban': {
+            dayUnitRateExVAT: parseFloat($("table:contains('D/N Urban') tbody tr:nth-child(1) td:nth-child(2)").text().replace(' cent/kWh', '')),
+            dayUnitRateIncVAT: parseFloat($("table:contains('D/N Urban') tbody tr:nth-child(1) td:nth-child(3)").text().replace(' cent/kWh', '')),
+            nightUnitRateExVAT: parseFloat($("table:contains('D/N Urban') tbody tr:nth-child(2) td:nth-child(2)").text().replace(' cent/kWh', '')),
+            nightUnitRateIncVAT: parseFloat($("table:contains('D/N Urban') tbody tr:nth-child(2) td:nth-child(3)").text().replace(' cent/kWh', '')),
+            standingChargeExVAT: parseFloat($("table:contains('D/N Urban') tbody tr:nth-child(3) td:nth-child(2)").text().replace('€', '').replace(' Annually', '')),
+            standingChargeIncVAT: parseFloat($("table:contains('D/N Urban') tbody tr:nth-child(3) td:nth-child(3)").text().replace('€', '').replace(' Annually', ''))
+        },
+        '24hr Rural': {
+            unitRateExVAT: parseFloat($("table:contains('24hr Rural') tbody tr:nth-child(1) td:nth-child(2)").text().replace(' cent/kWh', '')),
+            unitRateIncVAT: parseFloat($("table:contains('24hr Rural') tbody tr:nth-child(1) td:nth-child(3)").text().replace(' cent/kWh', '')),
+            standingChargeExVAT: parseFloat($("table:contains('24hr Rural') tbody tr:nth-child(2) td:nth-child(2)").text().replace('€', '').replace(' Annually', '')),
+            standingChargeIncVAT: parseFloat($("table:contains('24hr Rural') tbody tr:nth-child(2) td:nth-child(3)").text().replace('€', '').replace(' Annually', ''))
+        },
+        'D/N Rural': {
+            dayUnitRateExVAT: parseFloat($("table:contains('D/N Rural') tbody tr:nth-child(1) td:nth-child(2)").text().replace(' cent/kWh', '')),
+            dayUnitRateIncVAT: parseFloat($("table:contains('D/N Rural') tbody tr:nth-child(1) td:nth-child(3)").text().replace(' cent/kWh', '')),
+            nightUnitRateExVAT: parseFloat($("table:contains('D/N Rural') tbody tr:nth-child(2) td:nth-child(2)").text().replace(' cent/kWh', '')),
+            nightUnitRateIncVAT: parseFloat($("table:contains('D/N Rural') tbody tr:nth-child(2) td:nth-child(3)").text().replace(' cent/kWh', '')),
+            standingChargeExVAT: parseFloat($("table:contains('D/N Rural') tbody tr:nth-child(3) td:nth-child(2)").text().replace('€', '').replace(' Annually', '')),
+            standingChargeIncVAT: parseFloat($("table:contains('D/N Rural') tbody tr:nth-child(3) td:nth-child(3)").text().replace('€', '').replace(' Annually', ''))
         }
     };
-    return yuno;
+
+    console.log(prices);
+    return prices;
 }
+
+getYunoPrices().catch(console.error);
 
 async function getElecPrices() {
-    const elecHtml = await getElecHtml();
-    const $ = cheerio.load(elecHtml);
+    const data = await getElecHtml();
+    if (!data) return null;
+    const $ = cheerio.load(data);
 
-    // Example selectors, adjust as needed
-    const urbanPrice = parseFloat($("selector-for-urban-price").text());
-    const ruralPrice = parseFloat($("selector-for-rural-price").text());
-    const urbanStandingCharge = parseFloat($("selector-for-urban-standing-charge").text());
-    const ruralStandingCharge = parseFloat($("selector-for-rural-standing-charge").text());
+    const plans = [];
 
-    const elec = {
-        "urban": {
-            "unitPriceCents": urbanPrice,
-            "standingChargeAnnual": urbanStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        },
-        "rural": {
-            "unitPriceCents": ruralPrice,
-            "standingChargeAnnual": ruralStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        }
-    };
-    return elec;
+    $('.scrollable-card').each((index, element) => {
+        const planName = $(element).find('.top h2').text().trim();
+        const electricityUnitPrice = $(element).find('table.prices tbody tr:contains("Electricity unit price") td:nth-child(2)').text().trim();
+        const gasUnitPrice = $(element).find('table.prices tbody tr:contains("Gas unit price") td:nth-child(2)').text().trim();
+        const firstYearCost = $(element).find('ul.spread li:contains("First Year Cost w/ Bonus") strong').text().trim();
+        const estimatedAnnualBill = $(element).find('ul.spread li:contains("Estimated Annual Bill (EAB)") strong').text().trim();
+
+        plans.push({
+            planName,
+            electricityUnitPrice,
+            gasUnitPrice,
+            firstYearCost,
+            estimatedAnnualBill
+        });
+    });
+
+    console.log(plans);
+    return plans;
 }
+getElecPrices().catch(console.error);
 
 async function getPinergyPrices() {
-    const pinergyHtml = await getPinergyHtml();
-    const $ = cheerio.load(pinergyHtml);
+    const data = await getPinergyHtml();
+    if (!data) return null;
+    const $ = cheerio.load(data);
 
-    // Example selectors, adjust as needed
-    const urbanPrice = parseFloat($("selector-for-urban-price").text());
-    const ruralPrice = parseFloat($("selector-for-rural-price").text());
-    const urbanStandingCharge = parseFloat($("selector-for-urban-standing-charge").text());
-    const ruralStandingCharge = parseFloat($("selector-for-rural-standing-charge").text());
+    const plans = [];
 
-    const pinergy = {
-        "urban": {
-            "unitPriceCents": urbanPrice,
-            "standingChargeAnnual": urbanStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        },
-        "rural": {
-            "unitPriceCents": ruralPrice,
-            "standingChargeAnnual": ruralStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        }
-    };
-    return pinergy;
+    // Loop through each plan section
+    $('.tab_anchor_content').each((index, element) => {
+        const planName = $(element).find('h2.black_heading').text().trim();
+        const unitPriceExVAT = $(element).find('table tbody tr:contains("Unit Price") td:nth-child(2)').text().trim();
+        const unitPriceIncVAT = $(element).find('table tbody tr:contains("Unit Price") td:nth-child(3)').text().trim();
+        const standingChargeExVAT = $(element).find('table tbody tr:contains("Standing Charge") td:nth-child(2)').text().trim();
+        const standingChargeIncVAT = $(element).find('table tbody tr:contains("Standing Charge") td:nth-child(3)').text().trim();
+        const eabExVAT = $(element).find('table tbody tr:contains("EAB Table") + tr + tr td:nth-child(2)').text().trim();
+        const eabIncVAT = $(element).find('table tbody tr:contains("EAB Table") + tr + tr td:nth-child(3)').text().trim();
+
+        plans.push({
+            planName,
+            unitPriceExVAT,
+            unitPriceIncVAT,
+            standingChargeExVAT,
+            standingChargeIncVAT,
+            eabExVAT,
+            eabIncVAT
+        });
+    });
+
+    console.log(plans);
+    return plans;
 }
 
 async function getEnergiaPrices() {
-    const energiaHtml = await getEnergiaHtml();
-    const $ = cheerio.load(energiaHtml);
+    const data = await getEnergiaHtml();
+    if (!data) return null;
+    const $ = cheerio.load(data);
 
-    // Example selectors, adjust as needed
-    const urbanPrice = parseFloat($("selector-for-urban-price").text());
-    const ruralPrice = parseFloat($("selector-for-rural-price").text());
-    const urbanStandingCharge = parseFloat($("selector-for-urban-standing-charge").text());
-    const ruralStandingCharge = parseFloat($("selector-for-rural-standing-charge").text());
-
-    const energia = {
-        "urban": {
-            "unitPriceCents": urbanPrice,
-            "standingChargeAnnual": urbanStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        },
-        "rural": {
-            "unitPriceCents": ruralPrice,
-            "standingChargeAnnual": ruralStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        }
+    const extractTableData = (tableSelector) => {
+        const data = [];
+        $(tableSelector).find('tr:not(:first-child)').each((i, el) => {
+            const row = $(el).find('td').map((j, td) => $(td).text().trim()).get();
+            data.push({
+                description: row[0],
+                includingVAT: row[1],
+                excludingVAT: row[2]
+            });
+        });
+        return data;
     };
-    return energia;
+
+    const extractStandingCharges = (tableSelector) => {
+        const data = [];
+        $(tableSelector).find('tr').each((i, el) => {
+            const row = $(el).find('td').map((j, td) => $(td).text().trim()).get();
+            data.push({
+                description: row[0],
+                price: row[1]
+            });
+        });
+        return data;
+    };
+
+    const plans = [
+        { name: 'Electricity 24 Hour Prices', tableSelector: 'table:nth-child(9)' },
+        { name: 'Electricity 24 Hour Standing Charges', tableSelector: 'table:nth-child(11)', isStandingCharge: true },
+        { name: 'Electricity Day Night Prices', tableSelector: 'table:nth-child(13)' },
+        { name: 'Electricity Day Night Standing Charges', tableSelector: 'table:nth-child(15)', isStandingCharge: true },
+        { name: 'Electricity Night Storage Prices', tableSelector: 'table:nth-child(17)' },
+        { name: 'Electricity Night Storage Standing Charges', tableSelector: 'table:nth-child(19)', isStandingCharge: true },
+        { name: 'Electricity Standard Smart Meter Prices', tableSelector: 'table:nth-child(21)' },
+        { name: 'Electricity Standard Smart Meter Standing Charges', tableSelector: 'table:nth-child(23)', isStandingCharge: true },
+        { name: 'Electricity Interval Smart Meter Prices', tableSelector: 'table:nth-child(25)' },
+        { name: 'Electricity Interval Smart Meter Standing Charges', tableSelector: 'table:nth-child(27)', isStandingCharge: true },
+        { name: 'Gas Meter Prices', tableSelector: 'table:nth-child(29)' },
+        { name: 'Gas Standing Charges', tableSelector: 'table:nth-child(31)', isStandingCharge: true }
+    ];
+
+    const pricingData = {};
+
+    plans.forEach(plan => {
+        if (plan.isStandingCharge) {
+            pricingData[plan.name] = extractStandingCharges(plan.tableSelector);
+        } else {
+            pricingData[plan.name] = extractTableData(plan.tableSelector);
+        }
+    });
+
+    console.log(pricingData);
+    return pricingData;
 }
 
 async function getPrices(providers, interest, loc) {
-    let yunoData = "";
-    let pinergyData = "";
-    let elecData = "";
-    let energiaData = "";
-
-    if (providers.includes("yuno")) {
-        yunoData = await getYunoPrices();
+    let results = {};
+    if (providers.includes('Yuno')) {
+        try {
+            results['Yuno'] = await getYunoPrices();
+            console.log("Successfully fetched Yuno prices");
+        } catch (error) {
+            console.error("Error fetching Yuno prices:", error);
+        }
     }
-    if (providers.includes("pinergy")) {
-        pinergyData = await getPinergyPrices();
+    if (providers.includes('Elec')) {
+        try {
+            results['Elec'] = await getElecPrices();
+            console.log("Successfully fetched Elec prices");
+        } catch (error) {
+            console.error("Error fetching Elec prices:", error);
+        }
     }
-    if (providers.includes("elec")) {
-        elecData = await getElecPrices();
+    if (providers.includes('Pinergy')) {
+        try {
+            results['Pinergy'] = await getPinergyPrices();
+            console.log("Successfully fetched Pinergy prices");
+        } catch (error) {
+            console.error("Error fetching Pinergy prices:", error);
+        }
     }
-    if (providers.includes("energia")) {
-        energiaData = await getEnergiaPrices();
+    if (providers.includes('Energia')) {
+        try {
+            results['Energia'] = await getEnergiaPrices();
+            console.log("Successfully fetched Energia prices");
+        } catch (error) {
+            console.error("Error fetching Energia prices:", error);
+        }
     }
-
-    const response = {
-        "yuno": yunoData,
-        "pinergy": pinergyData,
-        "elec": elecData,
-        "energia": energiaData
-    };
-    return response;
+    
+    console.log("Scraped Prices:", results); 
+    return results;
 }
 
 export default getPrices;

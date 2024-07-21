@@ -1,49 +1,44 @@
 import express from 'express';
-import dummyData from './dummyResponse.js'; // Import the dummy data
+import getData from './calc.js';
 
 const app = express();
 
 app.use(express.json());
+app.set('view engine', 'ejs');
+app.set('views', './views');
 
-/**
- * This code defines an Express server that calculates and returns the best plan from a list of
- * dummy data based on cost, savings, and cash-back.
- * @param plans - The `plans` parameter in the code snippet refers to an array of plan objects. Each
- * plan object contains information such as cost, savings, and cash-back. The `getBestPlan` function
- * sorts these plan objects based on cost, savings, and cash-back to determine the best plan, and then
- * @returns The code snippet provided is an Express server that defines a POST route at '/api'. When a
- * POST request is made to this route, it calculates the best plan from the dummy data using the
- * `getBestPlan` function and returns a JSON response containing the best plan and the list of plans.
- */
-
-// Function to determine the best plan
-function getBestPlan(plans) {
-    // Sort plans by cost, then by savings (in descending order), and finally by cash-back (in descending order)
-    plans.sort((a, b) => {
-        if (a.cost !== b.cost) {
-            return a.cost - b.cost;
-        } else if (a.savings !== b.savings) {
-            return b.savings - a.savings;
-        } else {
-            return b.cashBack - a.cashBack;
-        }
-    });
-
-    // Return the best plan (first in the sorted list)
-    return plans[0];
-}
-
-// Replace the existing /api POST route to return dummy data with the best plan
-app.post('/api', express.json(), (req, res) => {
-    const bestPlan = getBestPlan(dummyData.plans);
+app.post('/api', async (req, res) => {
+    const { providers, interest, loc } = req.body;
+    const data = await getData(providers, interest, loc);
+    const bestPlan = getBestPlan(data);
     res.json({
         bestPlan: bestPlan,
-        plans: dummyData.plans
+        plans: data
     });
 });
 
-//express on 3001
+function getBestPlan(plans) {
+    let bestPlan = null;
+    let lowestCost = Infinity;
+
+    for (const [provider, costs] of Object.entries(plans)) {
+        const { annualSpendLow, annualSpendMedium, annualSpendHigh } = costs;
+        const averageCost = (annualSpendLow + annualSpendMedium + annualSpendHigh) / 3;
+
+        if (averageCost < lowestCost) {
+            lowestCost = averageCost;
+            bestPlan = { provider, ...costs };
+        }
+    }
+
+    return bestPlan;
+}
+
+app.get('/results', (req, res) => {
+    res.render('results', { title: 'Best Energy Plan', results: req.query });
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+    console.log(`Server running on port ${port}`);
 });

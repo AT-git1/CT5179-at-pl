@@ -22,4 +22,4 @@ ARG SERVICE
 ENV SERVICE=${SERVICE}
 
 # Use nodemon for development
-CMD ["sh", "-c", "npm run ${SERVICE}"]
+CMD ["sh", "-c", "npm install && npm run ${SERVICE}"]

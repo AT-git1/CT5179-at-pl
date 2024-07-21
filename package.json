@@ -1,16 +1,23 @@
 {
     "name": "fullstack",
     "version": "1.0.0",
-        "scripts": {
-          "start:server": "cd backend && cd server && node server.js",
-          "start:client": "cd client && npm run build-sass && npm start",
-          "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
-        },
+    "type": "module",
+    "scripts": {
+        "start:server": "cd backend && cd server && node server.js",
+        "start:client": "cd client && npm run build-sass && npm start",
+        "dev": "concurrently \"npm run start:server\" \"npm run start:client\"",
+        "test": "jest --config jest.config.mjs"
+    },
     "devDependencies": {
+        "@babel/preset-env": "^7.24.8",
+        "axios-mock-adapter": "^1.22.0",
+        "babel-jest": "^29.7.0",
         "concurrently": "^8.2.2",
+        "jest": "^29.7.0",
         "nodemon": "^3.1.4"
     },
     "dependencies": {
-        "bootstrap": "^5.3.3"
+        "bootstrap": "^5.3.3",
+        "puppeteer": "^22.13.1"
     }
 }

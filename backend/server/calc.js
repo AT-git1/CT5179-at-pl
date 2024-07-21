@@ -1,31 +1,30 @@
-//get Data from the parser and perform calculations on it to send to front end
-
 import getPrices from "./parser.js";
 
-//Todo: Get household size from FE and only return relevant one
-//Todo: Verify annual spend accuracy and check for hidden costs
-function getData(providers, interest, loc) {
-    const prices = getPrices(providers, interest, loc);
-    const provArray = providers.split("|");
+function calculateAnnualSpend(data, usageLevel) {
+    const usage = {
+        low: 2900,
+        medium: 4200,
+        high: 5400
+    }[usageLevel];
+
+    const { unitPriceCents, standingChargeAnnual, obligationPayment, serviceChargeAnnual = 0 } = data;
+    return standingChargeAnnual + obligationPayment + serviceChargeAnnual + ((usage * unitPriceCents) / 100);
+}
+
+async function getData(providers, interest, loc) {
+    const prices = await getPrices(providers, interest, loc);
     let response = {};
-
-    provArray.forEach((prov) => {
-        let standingChargeAnnual = prices[prov][loc].standingChargeAnnual;
-        let unitPriceCents = prices[prov][loc].unitPriceCents;
-        let obligationPayment = prices[prov][loc].obligationPayment;
-        let annualSpendLow = standingChargeAnnual + obligationPayment + ((2900 * unitPriceCents)/100)
-        let annualSpendMedium = standingChargeAnnual + obligationPayment + ((4200 * unitPriceCents)/100);
-        let annualSpendHigh = standingChargeAnnual + obligationPayment + ((5400 * unitPriceCents)/100)
-
-        response[prov] = {
-            "annualSpendLow": Math.round(annualSpendLow),
-            "annualSpendMedium": Math.round(annualSpendMedium),
-            "annualSpendHigh": Math.round(annualSpendHigh),
-        };
-
-    })
+    for (const prov of Object.keys(prices)) {
+        let data = prices[prov][loc]; // Assuming prices object is structured correctly
+        if (data) {
+            let annualSpendLow = calculateAnnualSpend(data, 'low');
+            let annualSpendMedium = calculateAnnualSpend(data, 'medium');
+            let annualSpendHigh = calculateAnnualSpend(data, 'high');
+            response[prov] = { annualSpendLow, annualSpendMedium, annualSpendHigh };
+        }
+    }
+    console.log("Calculated Data:", response); // Add logging
     return response;
-
 }
 
 export default getData;

@@ -4,29 +4,32 @@
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
-                <th>Plan Name</th>
-                <th>Supplier</th>
-                <th>Cost</th>
-                <th>Savings</th>
-                <th>Cash-back</th>
+                <th>Provider</th>
+                <th>Annual Spend (Low)</th>
+                <th>Annual Spend (Medium)</th>
+                <th>Annual Spend (High)</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="best-plan">
-                <td><%= results.bestPlan.planName %></td>
-                <td><%= results.bestPlan.supplier %></td>
-                <td><%= results.bestPlan.cost %></td>
-                <td><%= results.bestPlan.savings %></td>
-                <td><%= results.bestPlan.cashBack %></td>
-            </tr>
-            <% results.plans.forEach(function(plan) { %>
-                <% if (plan.planName !== results.bestPlan.planName) { %>
+            <% if (results.bestPlan) { %>
+                <tr class="best-plan">
+                    <td><%= results.bestPlan.provider %></td>
+                    <td><%= results.bestPlan.annualSpendLow %></td>
+                    <td><%= results.bestPlan.annualSpendMedium %></td>
+                    <td><%= results.bestPlan.annualSpendHigh %></td>
+                </tr>
+            <% } else { %>
+                <tr>
+                    <td colspan="4" class="text-center">No best plan found</td>
+                </tr>
+            <% } %>
+            <% Object.keys(results.plans).forEach(function(provider) { %>
+                <% if (provider !== results.bestPlan?.provider) { %>
                     <tr>
-                        <td><%= plan.planName %></td>
-                        <td><%= plan.supplier %></td>
-                        <td><%= plan.cost %></td>
-                        <td><%= plan.savings %></td>
-                        <td><%= plan.cashBack %></td>
+                        <td><%= provider %></td>
+                        <td><%= results.plans[provider].annualSpendLow %></td>
+                        <td><%= results.plans[provider].annualSpendMedium %></td>
+                        <td><%= results.plans[provider].annualSpendHigh %></td>
                     </tr>
                 <% } %>
             <% }); %>
