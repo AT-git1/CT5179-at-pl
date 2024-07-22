@@ -21,7 +21,7 @@ router.post('/compare', [
   const formData = req.body;
 
   if (!errors.isEmpty()) {
-    return res.status(400).render('index', { title: 'Energy Prices Comparator', formData, errors: errors.array() });
+    return res.status(400).render('index', { title: 'Enersave - Electricity Price Comparator', formData, errors: errors.array() });
   }
 
   try {
@@ -33,7 +33,9 @@ router.post('/compare', [
 
     winstonLogger.info(`Form submitted: ${JSON.stringify(formData)}`); // Log form submission
 
-    const response = await axios.post('http://localhost:3001/api', apiData);
+    // Use the Docker service name for the backend API
+    const apiUrl = process.env.API_URL || 'http://enersave-prod-backend:3000/api';
+    const response = await axios.post(apiUrl, apiData);
     winstonLogger.info(`API request sent to /api with data: ${JSON.stringify(apiData)}`); // Log API request
 
     if (response.status !== 200) {

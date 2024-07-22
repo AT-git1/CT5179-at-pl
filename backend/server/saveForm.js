@@ -1,4 +1,5 @@
 // routes/saveForm.js
+
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -8,8 +9,18 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/**
+ * Express router for saving form data.
+ * @type {import('express').Router}
+ */
 const router = express.Router();
 
+/**
+ * POST /save-form
+ * Saves form data to a file.
+ * @param {import('express').Request} req - The request object.
+ * @param {import('express').Response} res - The response object.
+ */
 router.post('/save-form', express.json(), (req, res) => {
   const formData = req.body;
   const dataDir = path.join(__dirname, '../data');
@@ -20,6 +31,7 @@ router.post('/save-form', express.json(), (req, res) => {
     fs.mkdirSync(dataDir);
   }
 
+  // Append the form data to the file
   fs.appendFile(filePath, JSON.stringify(formData) + '\n', (err) => {
     if (err) {
       console.error('Error saving form data:', err);

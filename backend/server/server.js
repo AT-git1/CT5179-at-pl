@@ -5,6 +5,17 @@ const app = express();
 
 app.use(express.json());
 
+/**
+ * This code defines an Express server that calculates and returns the best plan from a list of
+ * dummy data based on cost, savings, and cash-back.
+ * @param plans - The `plans` parameter in the code snippet refers to an array of plan objects. Each
+ * plan object contains information such as cost, savings, and cash-back. The `getBestPlan` function
+ * sorts these plan objects based on cost, savings, and cash-back to determine the best plan, and then
+ * @returns The code snippet provided is an Express server that defines a POST route at '/api'. When a
+ * POST request is made to this route, it calculates the best plan from the dummy data using the
+ * `getBestPlan` function and returns a JSON response containing the best plan and the list of plans.
+ */
+
 // Function to determine the best plan
 function getBestPlan(plans) {
     // Sort plans by cost, then by savings (in descending order), and finally by cash-back (in descending order)
@@ -31,7 +42,8 @@ app.post('/api', express.json(), (req, res) => {
     });
 });
 
-// express 3001
-app.listen(3001, () => {
-    console.log('Server listening on port 3001');
+//express on 3001
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });

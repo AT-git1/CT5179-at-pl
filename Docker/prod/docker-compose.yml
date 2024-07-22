@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ../..
+      dockerfile: Docker/prod/Dockerfile
+      args:
+        SERVICE: start:server
+    image: enersave-prod-backend
+    container_name: enersave-prod-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    env_file:
+      - .env
+    volumes:
+      - ../../:/usr/src/app
+      - /usr/src/app/node_modules
+
+  frontend:
+    build:
+      context: ../..
+      dockerfile: Docker/prod/Dockerfile
+      args:
+        SERVICE: start:client
+    image: enersave-prod-frontend
+    container_name: enersave-prod-frontend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - API_URL=http://enersave-prod-backend:3000/api
+    env_file:
+      - .env
+    volumes:
+      - ../../:/usr/src/app
+      - /usr/src/app/node_modules
+
