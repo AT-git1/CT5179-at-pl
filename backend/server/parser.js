@@ -8,163 +8,260 @@
  */
 import axios from "axios";
 import * as cheerio from "cheerio";
+import puppeteerScrape from "./scraper.js";
 
-async function getYunoHtml() {
-    const yunoURL = "https://yunoenergy.ie/pricing-page";
-    const yunoRes = await axios.get(yunoURL);
-    return yunoRes.data;
-}
+//Todo: unit test here
+async function getPage(provider) {
+    let url = '';
+    let page;
 
-async function getElecHtml() {
-    const elecURL = "https://www.electricireland.ie/switch/new-customer/price-plans?priceType=D";
-    const elecRes = await axios.get(elecURL);
-    return elecRes.data;
-}
-
-async function getPinergyHtml() {
-    const pinergyURL = "https://pinergy.ie/terms-conditions/tariffs/?tab=2";
-    const pinergyRes = await axios.get(pinergyURL);
-    return pinergyRes.data;
-}
-
-async function getEnergiaHtml() {
-    const energiaURL = "https://www.energia.ie/about-energia/our-tariffs";
-    const energiaRes = await axios.get(energiaURL);
-    return energiaRes.data;
-}
-
-async function getYunoPrices() {
-    const yunoHtml = await getYunoHtml();
-    const $ = cheerio.load(yunoHtml);
-
-    // Example selectors, adjust as needed
-    const urbanPrice = parseFloat($("selector-for-urban-price").text());
-    const ruralPrice = parseFloat($("selector-for-rural-price").text());
-    const urbanStandingCharge = parseFloat($("selector-for-urban-standing-charge").text());
-    const ruralStandingCharge = parseFloat($("selector-for-rural-standing-charge").text());
-
-    const yuno = {
-        "urban": {
-            "unitPriceCents": urbanPrice,
-            "standingChargeAnnual": urbanStandingCharge,
-            "obligationPayment": 0.00
-        },
-        "rural": {
-            "unitPriceCents": ruralPrice,
-            "standingChargeAnnual": ruralStandingCharge,
-            "obligationPayment": 0.00
-        }
-    };
-    return yuno;
-}
-
-async function getElecPrices() {
-    const elecHtml = await getElecHtml();
-    const $ = cheerio.load(elecHtml);
-
-    // Example selectors, adjust as needed
-    const urbanPrice = parseFloat($("selector-for-urban-price").text());
-    const ruralPrice = parseFloat($("selector-for-rural-price").text());
-    const urbanStandingCharge = parseFloat($("selector-for-urban-standing-charge").text());
-    const ruralStandingCharge = parseFloat($("selector-for-rural-standing-charge").text());
-
-    const elec = {
-        "urban": {
-            "unitPriceCents": urbanPrice,
-            "standingChargeAnnual": urbanStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        },
-        "rural": {
-            "unitPriceCents": ruralPrice,
-            "standingChargeAnnual": ruralStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        }
-    };
-    return elec;
-}
-
-async function getPinergyPrices() {
-    const pinergyHtml = await getPinergyHtml();
-    const $ = cheerio.load(pinergyHtml);
-
-    // Example selectors, adjust as needed
-    const urbanPrice = parseFloat($("selector-for-urban-price").text());
-    const ruralPrice = parseFloat($("selector-for-rural-price").text());
-    const urbanStandingCharge = parseFloat($("selector-for-urban-standing-charge").text());
-    const ruralStandingCharge = parseFloat($("selector-for-rural-standing-charge").text());
-
-    const pinergy = {
-        "urban": {
-            "unitPriceCents": urbanPrice,
-            "standingChargeAnnual": urbanStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        },
-        "rural": {
-            "unitPriceCents": ruralPrice,
-            "standingChargeAnnual": ruralStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        }
-    };
-    return pinergy;
-}
-
-async function getEnergiaPrices() {
-    const energiaHtml = await getEnergiaHtml();
-    const $ = cheerio.load(energiaHtml);
-
-    // Example selectors, adjust as needed
-    const urbanPrice = parseFloat($("selector-for-urban-price").text());
-    const ruralPrice = parseFloat($("selector-for-rural-price").text());
-    const urbanStandingCharge = parseFloat($("selector-for-urban-standing-charge").text());
-    const ruralStandingCharge = parseFloat($("selector-for-rural-standing-charge").text());
-
-    const energia = {
-        "urban": {
-            "unitPriceCents": urbanPrice,
-            "standingChargeAnnual": urbanStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        },
-        "rural": {
-            "unitPriceCents": ruralPrice,
-            "standingChargeAnnual": ruralStandingCharge,
-            "obligationPayment": 0.00,
-            "serviceChargeAnnual": 163.12
-        }
-    };
-    return energia;
-}
-
-async function getPrices(providers, interest, loc) {
-    let yunoData = "";
-    let pinergyData = "";
-    let elecData = "";
-    let energiaData = "";
-
-    if (providers.includes("yuno")) {
-        yunoData = await getYunoPrices();
+    switch(provider) {
+        case "yuno":
+            url = "https://yunoenergy.ie/pricing-page";
+            break;
+        case "pinergy":
+            url = "https://pinergy.ie/terms-conditions/tariffs/?tab=2";
+            break;
+        case "elec":
+            url = "https://www.electricireland.ie/switch/new-customer/price-plans?priceType=E";
+            break;
+        case "energia":
+            url = "https://www.energia.ie/about-energia/our-tariffs";
+            break;
+        case "placeholder":
+            url = "https://www.energia.ie/about-energia/our-tariffs";
+            break;
+        case "placeholder2":
+            url = "https://www.energia.ie/about-energia/our-tariffs";
+            break;
     }
-    if (providers.includes("pinergy")) {
-        pinergyData = await getPinergyPrices();
+    //Puppeteer scraping for dynamic pages
+    if (provider === "elec" || provider === "placeholder" || provider === "placeholder2") {
+        page = await puppeteerScrape(provider, url);
     }
-    if (providers.includes("elec")) {
-        elecData = await getElecPrices();
+    //Default scraping for static pages
+    else {
+        const axiosPage = await axios.get(url);
+        page = axiosPage.data;
     }
-    if (providers.includes("energia")) {
-        energiaData = await getEnergiaPrices();
-    }
+    return page;
+}
+//Todo: unit test here
+async function getPrices(providers, region) {
+    let plans = [];
 
-    const response = {
-        "yuno": yunoData,
-        "pinergy": pinergyData,
-        "elec": elecData,
-        "energia": energiaData
-    };
-    return response;
+    for await (const provider of providers) {
+        const page = await getPage(provider);
+        const $ = cheerio.load(page);
+
+        let planName;
+        let unitPrice;
+        let standingCharge;
+        let obligationPayment;
+        let serviceCharge;
+        let supplier;
+
+        switch(provider) {
+            case "yuno":
+                const $standardPlanYuno = $('dt:contains("Standard Plan")').first().next('dd');
+                //Plan Name
+                planName = "Yuno Standard Plan";
+                //Supplier
+                supplier = "Yuno";
+                if(region === 'urban') {
+
+                    const $urbanTable = $standardPlanYuno.find('table:contains("24hr Urban")').first();
+                    //Unit Price
+                    const $urbanUnitPriceRow = $urbanTable.find('tr:contains("24Hr Unit Rate")').first();
+                    const $urbanUnitPriceCell = $urbanUnitPriceRow.find('td').last();
+                    unitPrice = parseFloat($urbanUnitPriceCell.text().replace(/€/,''));
+
+                    //Standing Charge
+                    const $urbanStandingChargeRow = $urbanTable.find('tr:contains("Urban Standing Charge")').first();
+                    const $urbanStandingChargeCell = $urbanStandingChargeRow.find('td').last();
+                    standingCharge = parseFloat($urbanStandingChargeCell.text().replace(/€/,''));
+
+                    //Obligation Payment
+                    const $urbanObligationPaymentRow = $urbanTable.find('tr:contains("PSO")').first();
+                    const $urbanObligationPaymentCell = $urbanObligationPaymentRow.find('td').last();
+                    obligationPayment = parseFloat($urbanObligationPaymentCell.text().replace(/€/,''));
+
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                else if(region === 'rural') {
+
+                    const $ruralTable = $standardPlanYuno.find('table:contains("24hr Rural")').first();
+                    //Unit Price
+                    const $ruralUnitPriceRow = $ruralTable.find('tr:contains("24Hr Unit Rate")').first();
+                    const $ruralUnitPriceCell = $ruralUnitPriceRow.find('td').last();
+                    unitPrice = parseFloat($ruralUnitPriceCell.text().replace(/€/,''));
+
+                    //Standing Charge
+                    const $ruralStandingChargeRow = $ruralTable.find('tr:contains("Rural Standing Charge")').first();
+                    const $ruralStandingChargeCell = $ruralStandingChargeRow.find('td').last();
+                    standingCharge = parseFloat($ruralStandingChargeCell.text().replace(/€/,''));
+
+                    //Obligation Payment
+                    const $ruralObligationPaymentRow = $ruralTable.find('tr:contains("PSO")').first();
+                    const $ruralObligationPaymentCell = $ruralObligationPaymentRow.find('td').last();
+                    obligationPayment = parseFloat($ruralObligationPaymentCell.text().replace(/€/,''));
+
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                break;
+            case "pinergy":
+                //Plan Name
+                planName = "Pinergy 24Hr Standard Plan";
+                //Supplier
+                supplier = "Pinergy";
+                if(region === 'urban') {
+                    const $urbanPlanHeader = $('h2:contains("Standard 24 Hr Urban")').first();
+                    //Unit Price
+                    const $urbanUnitPriceTable = $urbanPlanHeader.nextAll('table:contains("Unit Price")').first();
+                    const $urbanUnitPriceRow = $urbanUnitPriceTable.find('tr:contains("Unit Price")');
+                    const $urbanUnitPriceCell = $urbanUnitPriceRow.find('td').eq(2);
+                    unitPrice = parseFloat($urbanUnitPriceCell.text());
+
+                    //Additional charges global table
+                    const $urbanExtraChargesTable = $urbanPlanHeader.nextAll('table:contains("Standing Charges")').first();
+
+                    //Standing Charge
+                    const $urbanStandingChargeRow = $urbanExtraChargesTable.find('tr:contains("Standing Charge 24 Hr")').first();
+                    const $urbanStandingChargeCell = $urbanStandingChargeRow.find('td').last();
+                    standingCharge = parseFloat($urbanStandingChargeCell.text());
+
+                    //Obligation Payment
+                    const $urbanObligationPaymentRow = $urbanExtraChargesTable.find('tr:contains("Public Service Obligation")').first();
+                    const $urbanObligationPaymentCell = $urbanObligationPaymentRow.find('td').last();
+                    obligationPayment = parseFloat($urbanObligationPaymentCell.text());
+
+                    //Service Charge
+                    const $urbanServiceChargeRow = $urbanExtraChargesTable.find('tr:contains("Service Charge")').first();
+                    const $urbanServiceChargeCell = $urbanServiceChargeRow.find('td').last();
+                    serviceCharge = parseFloat($urbanServiceChargeCell.text());
+                }
+                else if(region === 'rural') {
+                    const $ruralPlanHeader = $('h2:contains("Standard 24 Hr Rural")').first();
+                    //Unit Price
+                    const $ruralUnitPriceTable = $ruralPlanHeader.nextAll('table:contains("Unit Price")').first();
+                    const $ruralUnitPriceRow = $ruralUnitPriceTable.find('tr:contains("Unit Price")');
+                    const $ruralUnitPriceCell = $ruralUnitPriceRow.find('td').eq(2);
+                    unitPrice = parseFloat($ruralUnitPriceCell.text());
+
+                    //Additional charges global table
+                    const $ruralExtraChargesTable = $ruralPlanHeader.nextAll('table:contains("Standing Charges")').first();
+
+                    //Standing Charge
+                    const $ruralStandingChargeRow = $ruralExtraChargesTable.find('tr:contains("Standing Charge 24 Hr")').first();
+                    const $ruralStandingChargeCell = $ruralStandingChargeRow.find('td').last();
+                    standingCharge = parseFloat($ruralStandingChargeCell.text());
+
+                    //Obligation Payment
+                    const $ruralObligationPaymentRow = $ruralExtraChargesTable.find('tr:contains("Public Service Obligation")').first();
+                    const $ruralObligationPaymentCell = $ruralObligationPaymentRow.find('td').last();
+                    obligationPayment = parseFloat($ruralObligationPaymentCell.text());
+
+                    //Service Charge
+                    const $ruralServiceChargeRow = $ruralExtraChargesTable.find('tr:contains("Service Charge")').first();
+                    const $ruralServiceChargeCell = $ruralServiceChargeRow.find('td').last();
+                    serviceCharge = parseFloat($ruralServiceChargeCell.text());
+                }
+                break;
+            case "elec":
+                //Plan Name
+                planName = "Electric Ireland Standard Plan";
+                //Supplier
+                supplier = "Electric Ireland";
+                //Global pricing container
+                const $pricesTableElec = $('div#includeVAT_Contant').first();
+                //Global unit price table
+                const $unitPriceTableElec = $pricesTableElec.find('tbody:contains("unit price")').first();
+                const $unitPriceRowElec = $unitPriceTableElec.find('tr:contains("Standard unit price")').first();
+                const $unitPriceCellElec = $unitPriceRowElec.find('td').eq(1);
+                //Global standing charges table
+                const $standingChargeTableElec = $pricesTableElec.find('tbody:contains("Standing charge")').first();
+                //Global obligation payment table
+                const $obligationPaymentTableElec = $pricesTableElec.find('table:contains("PSO")').first();
+                const $obligationPaymentRowElec = $obligationPaymentTableElec.find('tr:contains("Public Service Obligation")').first();
+                const $obligationPaymentCellElec = $obligationPaymentRowElec.find('td').eq(1);
+
+                if(region === 'urban') {
+                    //Unit Price
+                    unitPrice = parseFloat($unitPriceCellElec.text());
+                    //Standing Charge
+                    const $standingChargeRowElec = $standingChargeTableElec.find('tr:contains("urban")').first();
+                    const $standingChargeCellElec = $standingChargeRowElec.find('td').eq(1);
+                    standingCharge = parseFloat($standingChargeCellElec.text().replace(/€/,''));
+                    //Obligation payment
+                    obligationPayment = parseFloat($obligationPaymentCellElec.text().replace(/€/,''));
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                else if(region === 'rural') {
+                    //Unit Price
+                    unitPrice = parseFloat($unitPriceCellElec.text());
+                    //Standing Charge
+                    const $standingChargeRowElec = $standingChargeTableElec.find('tr:contains("rural")').first();
+                    const $standingChargeCellElec = $standingChargeRowElec.find('td').eq(1);
+                    standingCharge = parseFloat($standingChargeCellElec.text().replace(/€/,''));
+                    //Obligation payment
+                    obligationPayment = parseFloat($obligationPaymentCellElec.text().replace(/€/,''));
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                break;
+            case "energia":
+                //Plan Name
+                planName = "Energia Standard Plan";
+                //Supplier
+                supplier = "Energia";
+                //Global Unit Price table
+                const $unitPriceTableEnergia = $('table:contains("Electricity 24 hour prices per unit")').first();
+                const $unitPriceRowEnergia = $unitPriceTableEnergia.find('tr:contains("Standard 24hr unit price")');
+                const $unitPriceCellEnergia = $unitPriceRowEnergia.find('td').eq(1);
+                //Global Standing Charge table
+                const $standingChargeTable = $('table:contains("Electricity standing charges per year")').first();
+                if(region === 'urban') {
+                    //Unit Price
+                    unitPrice = parseFloat($unitPriceCellEnergia.text());
+                    //Standing Charge
+                    const $urbanStandingChargeRow = $standingChargeTable.find('tr:contains("urban")').first();
+                    const $urbanStandingChargeCell = $urbanStandingChargeRow.find('td').eq(1);
+                    standingCharge = parseFloat($urbanStandingChargeCell.text().replace(/€/,''));
+                    //Obligation Payment
+                    obligationPayment = 0;
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                else if(region === 'rural') {
+                    //Unit Price
+                    unitPrice = parseFloat($unitPriceCellEnergia.text());
+                    //Standing Charge
+                    const $ruralStandingChargeRow = $standingChargeTable.find('tr:contains("rural")').first();
+                    const $ruralStandingChargeCell = $ruralStandingChargeRow.find('td').eq(1);
+                    standingCharge = parseFloat($ruralStandingChargeCell.text().replace(/€/,''));
+                    //Obligation Payment
+                    obligationPayment = 0;
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                break;
+        }
+        let plan = {
+            "planName" : planName,
+            "supplier" : supplier,
+            "rawPrices" : {
+                "unitPrice" : unitPrice,
+                "obligationPayment" : obligationPayment,
+                "standingCharge" : standingCharge,
+                "serviceCharge" : serviceCharge
+            },
+        }
+        plans.push(plan);
+    }
+    return plans;
 }
 
 export default getPrices;

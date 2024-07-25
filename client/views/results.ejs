@@ -7,8 +7,6 @@
                 <th>Plan Name</th>
                 <th>Supplier</th>
                 <th>Cost</th>
-                <th>Savings</th>
-                <th>Cash-back</th>
             </tr>
             </thead>
             <tbody>
@@ -16,8 +14,6 @@
                 <td><%= results.bestPlan.planName %></td>
                 <td><%= results.bestPlan.supplier %></td>
                 <td><%= results.bestPlan.cost %></td>
-                <td><%= results.bestPlan.savings %></td>
-                <td><%= results.bestPlan.cashBack %></td>
             </tr>
             <% results.plans.forEach(function(plan) { %>
                 <% if (plan.planName !== results.bestPlan.planName) { %>
@@ -25,8 +21,6 @@
                         <td><%= plan.planName %></td>
                         <td><%= plan.supplier %></td>
                         <td><%= plan.cost %></td>
-                        <td><%= plan.savings %></td>
-                        <td><%= plan.cashBack %></td>
                     </tr>
                 <% } %>
             <% }); %>

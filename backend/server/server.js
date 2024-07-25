@@ -1,5 +1,5 @@
 import express from 'express';
-import dummyData from './dummyResponse.js'; // Import the dummy data
+import getPlans from "./calc.js";
 
 const app = express();
 
@@ -17,6 +17,7 @@ app.use(express.json());
  */
 
 // Function to determine the best plan
+//Todo: unit test here
 function getBestPlan(plans) {
     // Sort plans by cost, then by savings (in descending order), and finally by cash-back (in descending order)
     plans.sort((a, b) => {
@@ -34,12 +35,30 @@ function getBestPlan(plans) {
 }
 
 // Replace the existing /api POST route to return dummy data with the best plan
-app.post('/api', express.json(), (req, res) => {
-    const bestPlan = getBestPlan(dummyData.plans);
+app.post('/api', express.json(), async (req, res) => {
+    const body = req.body;
+
+    //Remove the current provider from the list of providers to scrape
+    let providers = ["yuno", "pinergy", "elec", "energia"];
+    const currentProvider = body.currentProvider;
+    if (currentProvider !== "none" && currentProvider !== "other") {
+        const indexToRemove = providers.indexOf(currentProvider);
+        providers.splice(indexToRemove, 1);
+    }
+
+    const householdSize = body.householdSize;
+    const kwhUsage = body.kwhUsage;
+    const region = body.region;
+
+    const plans = await getPlans(providers, region, householdSize, kwhUsage);
+    const bestPlan = getBestPlan(plans);
+
+
     res.json({
         bestPlan: bestPlan,
-        plans: dummyData.plans
+        plans: plans
     });
+
 });
 
 //express on 3001

@@ -13,9 +13,8 @@ router.get('/', function(req, res, next) {
 router.post('/compare', [
   body('region').not().isEmpty().withMessage('Region is required.'),
   body('usageType').not().isEmpty().withMessage('Usage type is required.'),
-  body('spendAmount').if(body('usageType').equals('spend')).isFloat({ gt: 0 }).withMessage('Valid spend amount is required.'),
-  body('kwhAmount').if(body('usageType').equals('kwh')).isFloat({ gt: 0 }).withMessage('Valid kWh amount is required.'),
-  body('cashback').not().isEmpty().withMessage('Cashback selection is required.')
+  body('kwhUsage').if(body('usageType').equals('kwh')).isFloat({ gt: 0 }).withMessage('Valid kWh amount is required.'),
+  body('householdSize').if(body('usageType').equals('unknown')).isFloat({ gt: 0 }).withMessage('Valid household size is required.')
 ], async function(req, res, next) {
   const errors = validationResult(req);
   const formData = req.body;
@@ -26,10 +25,12 @@ router.post('/compare', [
 
   try {
     const apiData = {
-      providers: "yuno|pinergy|elec|energia",
-      interest: "standard",
-      loc: formData.region
+      currentProvider: formData.provider,
+      region: formData.region,
+      householdSize: formData.householdSize,
+      kwhUsage: formData.kwhUsage
     };
+
 
     winstonLogger.info(`Form submitted: ${JSON.stringify(formData)}`); // Log form submission
 

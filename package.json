@@ -1,16 +1,17 @@
 {
     "name": "fullstack",
     "version": "1.0.0",
-        "scripts": {
-          "start:server": "cd backend && cd server && node server.js",
-          "start:client": "cd client && npm run build-sass && npm start",
-          "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
-        },
+    "scripts": {
+        "start:server": "cd backend && cd server && node server.js",
+        "start:client": "cd client && npm run build-sass && npm start",
+        "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
+    },
     "devDependencies": {
         "concurrently": "^8.2.2",
         "nodemon": "^3.1.4"
     },
     "dependencies": {
-        "bootstrap": "^5.3.3"
+        "bootstrap": "^5.3.3",
+        "puppeteer": "^22.14.0"
     }
 }
