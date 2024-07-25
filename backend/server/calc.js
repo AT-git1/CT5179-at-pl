@@ -6,7 +6,7 @@ import getPrices from "./parser.js";
 //Todo: unit test here
 function processPlans(plan, householdSize, kwhUsage) {
     let usage;
-    if (kwhUsage !== "") {
+    if (kwhUsage !== "" && kwhUsage !== null && kwhUsage !== undefined) {
         usage = kwhUsage;
     }
     else {

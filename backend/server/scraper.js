@@ -12,7 +12,10 @@ async function puppeteerScrape(provider,url) {
             //Click on "Full price information" button
             const pricingButtonSelector = '[onclick="showPricePlanCharges(\'ESE28\')"]'
             await page.locator(pricingButtonSelector);
-            await page.click(pricingButtonSelector);
+
+            await page.evaluate((selector) => {
+                document.querySelector(selector).click();
+            }, pricingButtonSelector);
 
             //Wait for pricing info to load
             await page.waitForSelector("#btnIncludeVat");
