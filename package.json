@@ -12,6 +12,8 @@
     },
     "dependencies": {
         "bootstrap": "^5.3.3",
+        "chai": "^4.5.0",
+        "mocha": "^10.7.0",
         "puppeteer": "^22.14.0"
     }
 }

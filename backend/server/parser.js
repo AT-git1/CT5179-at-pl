@@ -10,8 +10,8 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import puppeteerScrape from "./scraper.js";
 
-//Todo: unit test here
-async function getPage(provider) {
+
+export async function getPage(provider) {
     let url = '';
     let page;
 
@@ -47,7 +47,7 @@ async function getPage(provider) {
     return page;
 }
 //Todo: unit test here
-async function getPrices(providers, region) {
+export async function getPrices(providers, region) {
     let plans = [];
 
     for await (const provider of providers) {
@@ -263,5 +263,3 @@ async function getPrices(providers, region) {
     }
     return plans;
 }
-
-export default getPrices;
