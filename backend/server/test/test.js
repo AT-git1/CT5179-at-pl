@@ -72,13 +72,13 @@ describe('Annual Spend calculation test', function() {
         let spend = processPlans(plan, householdSize, kwhUsage);
         expect(typeof spend).to.equal('number');
     });
-    it('returns a number greater than 0 when kWh is not given and householdSize is given', function () {
+    it('number greater than 0 when kWh is not given and householdSize is given', function () {
         const householdSize = 4;
         const kwhUsage = "";
         let spend = processPlans(plan, householdSize, kwhUsage);
         expect(spend).to.be.greaterThan(0);
     });
-    it('returns a number greater than 0 when householdSize is not given and kwhUsage is given', function () {
+    it('number greater than 0 when householdSize is not given and kwhUsage is given', function () {
         const householdSize = "";
         const kwhUsage = 4000;
         let spend = processPlans(plan, householdSize, kwhUsage);
