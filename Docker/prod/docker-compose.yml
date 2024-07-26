@@ -27,14 +27,13 @@ services:
     image: enersave-prod-frontend
     container_name: enersave-prod-frontend
     ports:
-      - "3001:3001"
+      - "443:443"
     environment:
       - NODE_ENV=development
-      - PORT=3001
+      - PORT=443
       - API_URL=http://enersave-prod-backend:3000/api
     env_file:
       - .env
     volumes:
       - ../../:/usr/src/app
       - /usr/src/app/node_modules
-
