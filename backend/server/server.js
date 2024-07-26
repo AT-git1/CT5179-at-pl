@@ -1,8 +1,15 @@
 import express from 'express';
 import {getPlans} from "./calc.js";
 import {getBestPlan} from "./calc.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 
@@ -21,31 +28,50 @@ app.use(express.json());
 //Todo: unit test here
 
 // Replace the existing /api POST route to return dummy data with the best plan
-app.post('/api', express.json(), async (req, res) => {
+app.post('/api', async (req, res) => {
     const body = req.body;
-
-    //Remove the current provider from the list of providers to scrape
     let providers = ["yuno", "pinergy", "elec", "energia"];
     const currentProvider = body.currentProvider;
     if (currentProvider !== "none" && currentProvider !== "other") {
         const indexToRemove = providers.indexOf(currentProvider);
         providers.splice(indexToRemove, 1);
     }
-
     const householdSize = body.householdSize;
     const kwhUsage = body.kwhUsage;
     const region = body.region;
 
-    const plans = await getPlans(providers, region, householdSize, kwhUsage);
-    const bestPlan = getBestPlan(plans);
-
-
-    res.json({
-        bestPlan: bestPlan,
-        plans: plans
-    });
-
+    try {
+        const plans = await getPlans(providers, region, householdSize, kwhUsage);
+        const bestPlan = getBestPlan(plans);
+        res.json({
+            bestPlan: bestPlan,
+            plans: plans
+        });
+    } catch (error) {
+        console.error('Error processing API request:', error);
+        res.status(500).json({ error: 'An error occurred while processing your request' });
+    }
 });
+
+// Add a new route for form submissions that uses the API endpoint internally
+app.post('/compare', async (req, res) => {
+    try {
+        // Make an internal request to the API endpoint
+        const apiResponse = await new Promise((resolve, reject) => {
+            app.handle(
+                { method: 'POST', url: '/api', body: req.body, headers: { 'content-type': 'application/json' } },
+                { json: (data) => resolve(data), status: (s) => ({ json: (data) => reject(new Error(data)) }) }
+            );
+        });
+
+        // Redirect to results page with the API response data
+        res.redirect(`/results?data=${encodeURIComponent(JSON.stringify(apiResponse))}`);
+    } catch (error) {
+        console.error('Error processing comparison:', error);
+        res.status(500).send('An error occurred while processing your request');
+    }
+});
+
 
 //express on 3001
 const port = process.env.PORT || 3000;

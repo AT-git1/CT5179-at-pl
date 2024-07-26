@@ -1,33 +1,58 @@
-<div class="container my-4">
-    <h1 class="text-center mb-4"><%= title %></h1>
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-            <tr>
-                <th>Plan Name</th>
-                <th>Supplier</th>
-                <th>Cost</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="best-plan">
-                <td><%= results.bestPlan.planName %></td>
-                <td><%= results.bestPlan.supplier %></td>
-                <td><%= results.bestPlan.cost %></td>
-            </tr>
-            <% results.plans.forEach(function(plan) { %>
-                <% if (plan.planName !== results.bestPlan.planName) { %>
-                    <tr>
-                        <td><%= plan.planName %></td>
-                        <td><%= plan.supplier %></td>
-                        <td><%= plan.cost %></td>
-                    </tr>
-                <% } %>
-            <% }); %>
-            </tbody>
-        </table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Comparison Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Electricity Comparison Results</h1>
+        <div id="bestPlan" class="card mb-4">
+            <div class="card-header">
+                <h2 class="card-title">Best Plan</h2>
+            </div>
+            <div class="card-body">
+                <!-- Best plan details will be inserted here -->
+            </div>
+        </div>
+        <h3>All Plans</h3>
+        <div id="allPlans">
+            <!-- All plans will be inserted here -->
+        </div>
     </div>
-    <div class="text-center mt-4">
-        <a href="/" class="btn btn-primary">Compare Prices Again</a>
-    </div>
-</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Parse the URL parameters to get the data
+            const urlParams = new URLSearchParams(window.location.search);
+            const data = JSON.parse(decodeURIComponent(urlParams.get('data')));
+
+            // Display the best plan
+            const bestPlanElement = document.getElementById('bestPlan');
+            bestPlanElement.querySelector('.card-body').innerHTML = `
+                <h3>${data.bestPlan.planName}</h3>
+                <p>Supplier: ${data.bestPlan.supplier}</p>
+                <p>Annual Cost: €${data.bestPlan.cost}</p>
+            `;
+
+            // Display all plans
+            const allPlansElement = document.getElementById('allPlans');
+            data.plans.forEach(plan => {
+                const planElement = document.createElement('div');
+                planElement.className = 'card mb-3';
+                planElement.innerHTML = `
+                    <div class="card-body">
+                        <h4>${plan.planName}</h4>
+                        <p>Supplier: ${plan.supplier}</p>
+                        <p>Annual Cost: €${plan.cost}</p>
+                    </div>
+                `;
+                allPlansElement.appendChild(planElement);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -15,6 +15,9 @@ const __dirname = path.dirname(__filename);
  */
 const router = express.Router();
 
+app.get('/results', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'results.html'));
+});
 /**
  * POST /save-form
  * Saves form data to a file.
