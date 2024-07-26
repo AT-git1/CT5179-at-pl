@@ -1,12 +1,12 @@
 //get Data from the parser and perform calculations on it to send to front end
 
-import getPrices from "./parser.js";
+import {getPrices} from "./parser.js";
 
 //Todo: Verify annual spend accuracy and check for hidden costs
 //Todo: unit test here
-function processPlans(plan, householdSize, kwhUsage) {
+export function processPlans(plan, householdSize, kwhUsage) {
     let usage;
-    if (kwhUsage !== "") {
+    if (kwhUsage !== "" && kwhUsage !== null && kwhUsage !== undefined) {
         usage = kwhUsage;
     }
     else {
@@ -30,15 +30,23 @@ function processPlans(plan, householdSize, kwhUsage) {
     return annualSpend;
 }
 
-async function getPlans(providers, region, householdSize, kwhUsage) {
+export function getBestPlan(plans) {
+    // Sort plans by cost
+    plans.sort((a, b) => {
+        if (a.cost !== b.cost) {
+            return a.cost - b.cost;
+        }
+    });
+
+    // Return the best plan (first in the sorted list)
+    return plans[0];
+}
+
+export async function getPlans(providers, region, householdSize, kwhUsage) {
     let plans = await getPrices(providers, region);
-    console.log("household size = " + householdSize);
-    console.log("kwhUsage = " + kwhUsage);
     for (const plan of plans) {
         plan.cost = processPlans(plan, householdSize, kwhUsage);
         delete plan.rawPrices;
     }
     return plans;
 }
-
-export default getPlans;

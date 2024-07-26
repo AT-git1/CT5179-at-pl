@@ -42,3 +42,12 @@
   border-radius: 50%;
   border: 2px solid #ced4da;
 }
+
+#unknownContainer, #kwhAmountContainer {
+  display: none;
+}
+
+#usageType[value="unknown"] ~ #unknownContainer,
+#usageType:not([value="unknown"]) ~ #kwhAmountContainer {
+  display: flex;
+}
