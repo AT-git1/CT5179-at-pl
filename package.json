@@ -2,8 +2,8 @@
     "name": "fullstack",
     "version": "1.0.0",
     "scripts": {
-        "start:server": "cd backend && cd server && node server.js",
-        "start:client": "cd client && npm run build-sass && npm start",
+        "start:server": "cd backend && npm install && node server/server.js",
+        "start:client": "cd client && npm install && npm run build-sass && npm start",
         "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
     },
     "devDependencies": {
