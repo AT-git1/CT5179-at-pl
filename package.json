@@ -2,8 +2,8 @@
     "name": "fullstack",
     "version": "1.0.0",
     "scripts": {
-        "start:server": "cd backend && cd server && node server.js",
-        "start:client": "cd client && npm run build-sass && npm start",
+        "start:server": "cd backend && npm install && node server/server.js",
+        "start:client": "cd client && npm install && npm run build-sass && npm start",
         "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
     },
     "devDependencies": {
@@ -11,9 +11,25 @@
         "nodemon": "^3.1.4"
     },
     "dependencies": {
+        "@popperjs/core": "^2.11.8",
+        "axios": "^1.7.2",
         "bootstrap": "^5.3.3",
         "chai": "^4.5.0",
+        "cheerio": "^1.0.0-rc.12",
+        "cookie-parser": "^1.4.6",
+        "debug": "^4.3.5",
+        "ejs": "^3.1.10",
+        "express": "^4.19.2",
+        "express-ejs-layouts": "^2.5.1",
+        "express-validator": "^7.1.0",
+        "http-errors": "^2.0.0",
+        "jquery": "^3.7.1",
         "mocha": "^10.7.0",
-        "puppeteer": "^22.14.0"
+        "moment": "^2.30.1",
+        "morgan": "^1.10.0",
+        "popper.js": "^1.16.1",
+        "puppeteer": "^22.14.0",
+        "sass": "^1.77.8",
+        "winston": "^3.13.1"
     }
 }
