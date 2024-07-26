@@ -35,7 +35,7 @@ router.post('/compare', [
     winstonLogger.info(`Form submitted: ${JSON.stringify(formData)}`); // Log form submission
 
     // Use the Docker service name for the backend API
-    const apiUrl = process.env.API_URL || 'http://enersave-prod-backend:3000/api';
+    const apiUrl = process.env.API_URL || 'http://enersave-prod-backend/api';
     const response = await axios.post(apiUrl, apiData);
     winstonLogger.info(`API request sent to /api with data: ${JSON.stringify(apiData)}`); // Log API request
 

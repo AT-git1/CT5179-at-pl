@@ -30,7 +30,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Expose the ports the app runs on
-EXPOSE 3000
+EXPOSE 80
 EXPOSE 443
 
 # Define environment variables

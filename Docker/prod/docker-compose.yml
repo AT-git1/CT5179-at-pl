@@ -8,10 +8,10 @@ services:
     image: enersave-prod-backend
     container_name: enersave-prod-backend
     ports:
-      - "3000:3000"
+      - "80:80"
     environment:
       - NODE_ENV=development
-      - PORT=3000
+      - PORT=80
     env_file:
       - .env
     volumes:
@@ -31,7 +31,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=443
-      - API_URL=http://enersave-prod-backend:3000/api
+      - API_URL=http://enersave-prod-backend/api
     env_file:
       - .env
     volumes:
