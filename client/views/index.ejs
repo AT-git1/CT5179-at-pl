@@ -40,6 +40,8 @@
             <option value="energia" <%= (typeof formData !== 'undefined' && formData.provider === 'energia') ? 'selected' : '' %>>Energia</option>
             <option value="yuno" <%= (typeof formData !== 'undefined' && formData.provider === 'yuno') ? 'selected' : '' %>>Yuno</option>
             <option value="elec" <%= (typeof formData !== 'undefined' && formData.provider === 'elec') ? 'selected' : '' %>>Electric Ireland</option>
+            <option value="sse" <%= (typeof formData !== 'undefined' && formData.provider === 'sse') ? 'selected' : '' %>>SSE Airtricity</option>
+            <option value="flogas" <%= (typeof formData !== 'undefined' && formData.provider === 'flogas') ? 'selected' : '' %>>Flogas</option>
             <option value="other" <%= (typeof formData !== 'undefined' && formData.provider === 'other') ? 'selected' : '' %>>Other</option>
           </select>
         </div>

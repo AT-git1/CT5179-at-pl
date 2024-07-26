@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 
+//Todo: Amend this comment to reflect changes in functionality
 /**
  * This code defines an Express server that calculates and returns the best plan from a list of
  * dummy data based on cost, savings, and cash-back.
@@ -24,13 +25,11 @@ app.use(express.json());
  * `getBestPlan` function and returns a JSON response containing the best plan and the list of plans.
  */
 
-// Function to determine the best plan
-//Todo: unit test here
 
 // Replace the existing /api POST route to return dummy data with the best plan
 app.post('/api', async (req, res) => {
     const body = req.body;
-    let providers = ["yuno", "pinergy", "elec", "energia"];
+    let providers = ["yuno", "pinergy", "elec", "energia", "sse", "flogas"];
     const currentProvider = body.currentProvider;
     if (currentProvider !== "none" && currentProvider !== "other") {
         const indexToRemove = providers.indexOf(currentProvider);
