@@ -88,27 +88,54 @@
     const householdSizeInput = document.getElementById('householdSize'); 
     const kwhUsageInput = document.getElementById('kwhUsage'); 
 
+    // Logging function to trace errors
+    function logError(message) {
+        console.error(`Error: ${message}`);
+    }
+
+    // visibility of containers based on usage type
     function updateVisibility() {
-        if (usageTypeSelect.value === 'unknown') { // If the selected usage type is unknown
-            unknownContainer.style.display = 'flex'; // Show the unknown container
-            kwhAmountContainer.style.display = 'none'; // Hide the kWh amount container
-            kwhUsageInput.value = ''; // Clear the kWh usage input value
-        } else {
-            unknownContainer.style.display = 'none'; // Hide the unknown container
-            kwhAmountContainer.style.display = 'flex'; // Show the kWh amount container
-            householdSizeInput.value = ''; // Clear the household size input value
+        try {
+            console.log('Updating visibility based on usage type...');
+            if (usageTypeSelect.value === 'unknown') {
+                unknownContainer.style.display = 'flex'; // Show the unknown container
+                kwhAmountContainer.style.display = 'none'; // Hide the kWh amount container
+                kwhUsageInput.value = ''; // Clear the kWh usage input value
+            } else {
+                unknownContainer.style.display = 'none'; // Hide the unknown container
+                kwhAmountContainer.style.display = 'flex'; // Show the kWh amount container
+                householdSizeInput.value = ''; // Clear the household size input value
+            }
+            console.log('Visibility updated successfully.');
+        } catch (error) {
+            logError(`Failed to update visibility: ${error.message}`);
         }
     }
 
-    usageTypeSelect.addEventListener('change', updateVisibility); // include event listener to the usage type select element to update visibility on change
+    // Event listener for usage type selection
+    try {
+        usageTypeSelect.addEventListener('change', updateVisibility);
+        console.log('Event listener for usage type change added.');
+    } catch (error) {
+        logError(`Failed to add event listener: ${error.message}`);
+    }
     updateVisibility();
 
+    // Form submission event listener
     document.getElementById('compareForm').addEventListener('submit', function(e) {
-        if (!this.checkValidity()) { 
-            e.preventDefault(); 
-            e.stopPropagation(); 
+        try {
+            if (!this.checkValidity()) { 
+                e.preventDefault(); 
+                e.stopPropagation(); 
+                console.log('Form submission prevented due to invalid input.');
+            } else {
+                console.log('Form is valid, proceeding with submission.');
+            }
+            this.classList.add('was-validated'); // Add to the form for Bootstrap validation styling
+        } catch (error) {
+            logError(`Error during form submission: ${error.message}`);
         }
-        this.classList.add('was-validated'); // add to the form for Bootstrap validation styling
     });
 });
+
 </script>

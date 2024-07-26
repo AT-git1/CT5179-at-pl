@@ -7,8 +7,12 @@
         "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
     },
     "devDependencies": {
+        "@babel/core": "^7.24.9",
+        "@babel/preset-env": "^7.24.8",
+        "@babel/register": "^7.24.6",
         "concurrently": "^8.2.2",
-        "nodemon": "^3.1.4"
+        "nodemon": "^3.1.4",
+        "testdouble": "^3.20.2"
     },
     "dependencies": {
         "bootstrap": "^5.3.3",

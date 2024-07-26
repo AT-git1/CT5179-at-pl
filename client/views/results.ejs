@@ -21,37 +21,47 @@
         <div id="allPlans">
             <!-- All plans will be inserted here -->
         </div>
+        <div id="error" class="alert alert-danger d-none" role="alert">
+            <!-- Error message will be inserted here -->
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Parse the URL parameters to get the data
-            const urlParams = new URLSearchParams(window.location.search);
-            const data = JSON.parse(decodeURIComponent(urlParams.get('data')));
+            try {
+                // Parse the URL parameters to get the data
+                const urlParams = new URLSearchParams(window.location.search);
+                const data = JSON.parse(decodeURIComponent(urlParams.get('data')));
 
-            // Display the best plan
-            const bestPlanElement = document.getElementById('bestPlan');
-            bestPlanElement.querySelector('.card-body').innerHTML = `
-                <h3>${data.bestPlan.planName}</h3>
-                <p>Supplier: ${data.bestPlan.supplier}</p>
-                <p>Annual Cost: €${data.bestPlan.cost}</p>
-            `;
-
-            // Display all plans
-            const allPlansElement = document.getElementById('allPlans');
-            data.plans.forEach(plan => {
-                const planElement = document.createElement('div');
-                planElement.className = 'card mb-3';
-                planElement.innerHTML = `
-                    <div class="card-body">
-                        <h4>${plan.planName}</h4>
-                        <p>Supplier: ${plan.supplier}</p>
-                        <p>Annual Cost: €${plan.cost}</p>
-                    </div>
+                // Display the best plan
+                const bestPlanElement = document.getElementById('bestPlan');
+                bestPlanElement.querySelector('.card-body').innerHTML = `
+                    <h3>${data.bestPlan.planName}</h3>
+                    <p>Supplier: ${data.bestPlan.supplier}</p>
+                    <p>Annual Cost: €${data.bestPlan.cost}</p>
                 `;
-                allPlansElement.appendChild(planElement);
-            });
+
+                // Display all plans
+                const allPlansElement = document.getElementById('allPlans');
+                data.plans.forEach(plan => {
+                    const planElement = document.createElement('div');
+                    planElement.className = 'card mb-3';
+                    planElement.innerHTML = `
+                        <div class="card-body">
+                            <h4>${plan.planName}</h4>
+                            <p>Supplier: ${plan.supplier}</p>
+                            <p>Annual Cost: €${plan.cost}</p>
+                        </div>
+                    `;
+                    allPlansElement.appendChild(planElement);
+                });
+            } catch (error) {
+                console.error('Error parsing data:', error);
+                const errorElement = document.getElementById('error');
+                errorElement.classList.remove('d-none');
+                errorElement.innerHTML = 'An error occurred while processing the data. Please try again later.';
+            }
         });
     </script>
 </body>

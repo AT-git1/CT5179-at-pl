@@ -1,6 +1,5 @@
 import express from 'express';
-import {getPlans} from "./calc.js";
-import {getBestPlan} from "./calc.js";
+import { getPlans, getBestPlan } from './calc.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -10,7 +9,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(express.json());
 
 /**
@@ -72,9 +70,8 @@ app.post('/compare', async (req, res) => {
     }
 });
 
-
-//express on 3001
+// Express server listening on port 3000
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+    console.log(`Server running on port ${port}`);
 });
