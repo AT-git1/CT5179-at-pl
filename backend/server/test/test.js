@@ -16,8 +16,8 @@ import {getBestPlan} from "../calc.js";
 describe('Puppeteer scraping test', function() {
     this.timeout(5000);
     it('returns valid HTML', async function () {
-        const provider = "elec";
-        const url= "https://www.electricireland.ie/switch/new-customer/price-plans?priceType=E";
+        const provider = "sse";
+        const url= "https://www.sseairtricity.com/ie/home/products/electricity-top-discount";
         let html = await puppeteerScrape(provider, url);
         expect(html).to.contain('<!DOCTYPE html>');
     });

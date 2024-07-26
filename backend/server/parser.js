@@ -10,7 +10,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import puppeteerScrape from "./scraper.js";
 
-
+//Todo: Only scrape the best plans from the providers (with discounts)
 export async function getPage(provider) {
     let url = '';
     let page;

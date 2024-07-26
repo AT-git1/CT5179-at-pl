@@ -11,7 +11,7 @@ async function puppeteerScrape(provider,url) {
         case "elec" :
             //Click on "Full price information" button
             const pricingButtonSelector = '[onclick="showPricePlanCharges(\'ESE28\')"]'
-            await page.locator(pricingButtonSelector);
+            await page.waitForSelector(pricingButtonSelector);
 
             await page.evaluate((selector) => {
                 document.querySelector(selector).click();
