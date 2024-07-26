@@ -1,5 +1,6 @@
 import express from 'express';
-import getPlans from "./calc.js";
+import {getPlans} from "./calc.js";
+import {getBestPlan} from "./calc.js";
 
 const app = express();
 
@@ -18,21 +19,6 @@ app.use(express.json());
 
 // Function to determine the best plan
 //Todo: unit test here
-function getBestPlan(plans) {
-    // Sort plans by cost, then by savings (in descending order), and finally by cash-back (in descending order)
-    plans.sort((a, b) => {
-        if (a.cost !== b.cost) {
-            return a.cost - b.cost;
-        } else if (a.savings !== b.savings) {
-            return b.savings - a.savings;
-        } else {
-            return b.cashBack - a.cashBack;
-        }
-    });
-
-    // Return the best plan (first in the sorted list)
-    return plans[0];
-}
 
 // Replace the existing /api POST route to return dummy data with the best plan
 app.post('/api', express.json(), async (req, res) => {
