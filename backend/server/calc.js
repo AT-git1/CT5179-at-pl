@@ -2,8 +2,7 @@
 
 import {getPrices} from "./parser.js";
 
-//Todo: Verify annual spend accuracy and check for hidden costs
-//Todo: unit test here
+
 export function processPlans(plan, householdSize, kwhUsage) {
     let usage;
     if (kwhUsage !== "" && kwhUsage !== null && kwhUsage !== undefined) {
@@ -30,6 +29,7 @@ export function processPlans(plan, householdSize, kwhUsage) {
     return annualSpend;
 }
 
+// Function to determine the best plan
 export function getBestPlan(plans) {
     // Sort plans by cost
     plans.sort((a, b) => {

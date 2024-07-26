@@ -28,15 +28,15 @@ export async function getPage(provider) {
         case "energia":
             url = "https://www.energia.ie/about-energia/our-tariffs";
             break;
-        case "placeholder":
-            url = "https://www.energia.ie/about-energia/our-tariffs";
+        case "sse":
+            url = "https://www.sseairtricity.com/ie/home/products/electricity-top-discount";
             break;
-        case "placeholder2":
-            url = "https://www.energia.ie/about-energia/our-tariffs";
+        case "flogas":
+            url = "https://www.flogas.ie/price-plans/residential/detail.html?fuelType=electricity&offerId=4&availability=new_customers";
             break;
     }
     //Puppeteer scraping for dynamic pages
-    if (provider === "elec" || provider === "placeholder" || provider === "placeholder2") {
+    if (provider === "elec" || provider === "sse" || provider === "flogas") {
         page = await puppeteerScrape(provider, url);
     }
     //Default scraping for static pages
@@ -46,7 +46,7 @@ export async function getPage(provider) {
     }
     return page;
 }
-//Todo: unit test here
+
 export async function getPrices(providers, region) {
     let plans = [];
 
@@ -244,6 +244,98 @@ export async function getPrices(providers, region) {
                     standingCharge = parseFloat($ruralStandingChargeCell.text().replace(/€/,''));
                     //Obligation Payment
                     obligationPayment = 0;
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                break;
+            case "sse":
+                //Plan Name
+                planName = "SSE Airtricity Standard Plan";
+                //Supplier
+                supplier = "SSE Airtricity";
+                //Global unit price table
+                const $unitPriceTableSSE = $('table:contains("Night Saver meter (Day)")').first();
+                const $unitPriceRowSSE = $unitPriceTableSSE.find('tr:contains("24hr meter")').first();
+                const $unitPriceCellSSE = $unitPriceRowSSE.find('td').eq(1);
+                //Global standing charges table
+                const $standingChargeTableSSE = $('table:contains("Urban 24hr meter")').first();
+                //Global obligation payment table
+                const $obligationPaymentTableSSE = $('table:contains("Cost per year")').first();
+                const $obligationPaymentCellSSE = $obligationPaymentTableSSE.find('td').first();
+
+                if(region === 'urban') {
+                    //Unit Price
+                    unitPrice = parseFloat($unitPriceCellSSE.text());
+                    //Standing Charge
+                    const $standingChargeRowSSE = $standingChargeTableSSE.find('tr:contains("Urban 24hr meter")').first();
+                    const $standingChargeCellSSE = $standingChargeRowSSE.find('td').eq(1);
+                    standingCharge = parseFloat($standingChargeCellSSE.text().replace(/€/,''));
+                    //Obligation payment
+                    obligationPayment = parseFloat($obligationPaymentCellSSE.text().replace(/€/,''));
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                else if(region === 'rural') {
+                    //Unit Price
+                    unitPrice = parseFloat($unitPriceCellSSE.text());
+                    //Standing Charge
+                    const $standingChargeRowSSE = $standingChargeTableSSE.find('tr:contains("Rural 24hr meter")').first();
+                    const $standingChargeCellSSE = $standingChargeRowSSE.find('td').eq(1);
+                    standingCharge = parseFloat($standingChargeCellSSE.text().replace(/€/,''));
+                    //Obligation payment
+                    obligationPayment = parseFloat($obligationPaymentCellSSE.text().replace(/€/,''));
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                break;
+            case "flogas":
+                //Plan Name
+                planName = "Flogas Standard Plan";
+                //Supplier
+                supplier = "Flogas";
+                if(region === 'urban') {
+                    //Urban prices table
+                    const $pricesTableFlogasHeader = $('label:contains("urban")').first();
+                    const $pricesTableFlogasContainer = $pricesTableFlogasHeader.next('div.c-switch-price-plan-detail-tabs__content').first();
+                    const $pricesTableFlogas = $pricesTableFlogasContainer.find('table').first();
+
+                    //Unit Price
+                    const $unitPriceRowFlogas = $pricesTableFlogas.find('tr:contains("Unit Rate")').first();
+                    const $unitPriceCellFlogas = $unitPriceRowFlogas.find('td').eq(1);
+                    unitPrice = parseFloat($unitPriceCellFlogas.text());
+
+                    //Standing Charge
+                    const $standingChargeRowFlogas = $pricesTableFlogas.find('tr:contains("Standing Charge")').first();
+                    const $standingChargeCellFlogas = $standingChargeRowFlogas.find('td').eq(1);
+                    standingCharge = parseFloat($standingChargeCellFlogas.text().replace(/€/,''));
+
+                    //Obligation payment
+                    const $obligationPaymentRowFlogas = $pricesTableFlogas.find('tr:contains("PSO")').first();
+                    const $obligationPaymentCellFlogas = $obligationPaymentRowFlogas.find('td').eq(1);
+                    obligationPayment = parseFloat($obligationPaymentCellFlogas.text().replace(/€/,''));
+                    //Service Charge
+                    serviceCharge = 0;
+                }
+                else if(region === 'rural') {
+                    //Urban prices table
+                    const $pricesTableFlogasHeader = $('label:contains("rural")').first();
+                    const $pricesTableFlogasContainer = $pricesTableFlogasHeader.next('div.c-switch-price-plan-detail-tabs__content').first();
+                    const $pricesTableFlogas = $pricesTableFlogasContainer.find('table').first();
+
+                    //Unit Price
+                    const $unitPriceRowFlogas = $pricesTableFlogas.find('tr:contains("Unit Rate")').first();
+                    const $unitPriceCellFlogas = $unitPriceRowFlogas.find('td').eq(1);
+                    unitPrice = parseFloat($unitPriceCellFlogas.text());
+
+                    //Standing Charge
+                    const $standingChargeRowFlogas = $pricesTableFlogas.find('tr:contains("Standing Charge")').first();
+                    const $standingChargeCellFlogas = $standingChargeRowFlogas.find('td').eq(1);
+                    standingCharge = parseFloat($standingChargeCellFlogas.text().replace(/€/,''));
+
+                    //Obligation payment
+                    const $obligationPaymentRowFlogas = $pricesTableFlogas.find('tr:contains("PSO")').first();
+                    const $obligationPaymentCellFlogas = $obligationPaymentRowFlogas.find('td').eq(1);
+                    obligationPayment = parseFloat($obligationPaymentCellFlogas.text().replace(/€/,''));
                     //Service Charge
                     serviceCharge = 0;
                 }

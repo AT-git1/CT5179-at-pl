@@ -23,14 +23,16 @@ async function puppeteerScrape(provider,url) {
             await browser.close();
             break;
 
-        case "placeholder" :
-            //BLOCK FOR ANOTHER PROVIDER
+        case "sse" :
+            await page.waitForSelector(".home-body-container");
             scrapedPage = await page.content();
+            await browser.close();
             break;
 
-        case "placeholder2" :
-            //BLOCK FOR ANOTHER PROVIDER
+        case "flogas" :
+            await page.waitForSelector(".c-switch-price-plan-detail-tabs");
             scrapedPage = await page.content();
+            await browser.close();
             break;
     }
     return scrapedPage;
