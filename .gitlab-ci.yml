@@ -9,8 +9,7 @@ build:
     - docker:dind
   script:
     - echo "Building Docker image..."
-    - docker build -t myapp:latest .
-
+    - docker build -t myapp:latest ./Docker/prod
 deploy:
   stage: deploy
   image: appleboy/drone-ssh
