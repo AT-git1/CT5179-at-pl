@@ -18,5 +18,5 @@ deploy:
     - chmod 600 private_key
     - ssh -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull myapp:latest && docker-compose up -d"
   only:
-    - main 
+    - main
 
