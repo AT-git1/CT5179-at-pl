@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const FILENAME = path.basename(__filename); // Get the filename for logging
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -23,31 +24,58 @@ app.use(express.json());
  */
 
 // Function to determine the best plan
-//Todo: unit test here
+// Todo: unit test here
 
 // Replace the existing /api POST route to return dummy data with the best plan
 app.post('/api', async (req, res) => {
     const body = req.body;
     let providers = ["yuno", "pinergy", "elec", "energia"];
     const currentProvider = body.currentProvider;
-    if (currentProvider !== "none" && currentProvider !== "other") {
-        const indexToRemove = providers.indexOf(currentProvider);
-        providers.splice(indexToRemove, 1);
-    }
     const householdSize = body.householdSize;
     const kwhUsage = body.kwhUsage;
     const region = body.region;
 
+    console.log(`[${FILENAME}] API request received with data:`, JSON.stringify(body, null, 2));
+
     try {
+        if (currentProvider !== "none" && currentProvider !== "other") {
+            const indexToRemove = providers.indexOf(currentProvider);
+            if (indexToRemove !== -1) {
+                providers.splice(indexToRemove, 1);
+            }
+        }
+
+        console.log(`[${FILENAME}] Providers after filtering:`, providers);
+
         const plans = await getPlans(providers, region, householdSize, kwhUsage);
+        console.log(`[${FILENAME}] Plans retrieved:`, JSON.stringify(plans, null, 2));
+
+        if (!Array.isArray(plans) || plans.length === 0) {
+            throw new Error('No valid plans retrieved');
+        }
+
         const bestPlan = getBestPlan(plans);
-        res.json({
+        console.log(`[${FILENAME}] Best plan:`, JSON.stringify(bestPlan, null, 2));
+
+        if (!bestPlan) {
+            throw new Error('Unable to determine the best plan');
+        }
+
+        const response = {
             bestPlan: bestPlan,
             plans: plans
-        });
+        };
+
+        console.log(`[${FILENAME}] API response:`, JSON.stringify(response, null, 2));
+
+        res.json(response);
     } catch (error) {
-        console.error('Error processing API request:', error);
-        res.status(500).json({ error: 'An error occurred while processing your request' });
+        console.error(`[${FILENAME}] Error processing API request:`, error);
+        res.status(500).json({
+            error: 'An error occurred while processing your request',
+            details: error.message,
+            stack: process.env.NODE_ENV === 'production' ? undefined : error.stack
+        });
     }
 });
 
@@ -63,9 +91,11 @@ app.post('/compare', async (req, res) => {
         });
 
         // Redirect to results page with the API response data
-        res.redirect(`/results?data=${encodeURIComponent(JSON.stringify(apiResponse))}`);
+        const redirectUrl = `/results?data=${encodeURIComponent(JSON.stringify(apiResponse))}`;
+        console.log(`[${FILENAME}] Redirect URL:`, redirectUrl);
+        res.redirect(redirectUrl);
     } catch (error) {
-        console.error('Error processing comparison:', error);
+        console.error(`[${FILENAME}] Error processing comparison:`, error);
         res.status(500).send('An error occurred while processing your request');
     }
 });
@@ -73,5 +103,5 @@ app.post('/compare', async (req, res) => {
 // Express server listening on port 3000
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log(`[${FILENAME}] Server running on port ${port}`);
 });

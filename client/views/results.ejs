@@ -28,22 +28,60 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        const FILENAME = 'results.ejs'; // Define the filename
+
         document.addEventListener('DOMContentLoaded', function() {
             try {
-                // Parse the URL parameters to get the data
-                const urlParams = new URLSearchParams(window.location.search);
-                const data = JSON.parse(decodeURIComponent(urlParams.get('data')));
-
-                // Display the best plan
+                console.log(`[${FILENAME}] Starting data processing...`);
+                const queryString = window.location.search.slice(1);
+                const params = new URLSearchParams(queryString);
+                const rawData = params.get('data');
+                console.log(`[${FILENAME}] Raw URL parameter:`, rawData);
+        
+                if (!rawData) {
+                    throw new Error('No data received from the server');
+                }
+        
+                let data;
+                try {
+                    data = JSON.parse(decodeURIComponent(rawData));
+                } catch (parseError) {
+                    console.error(`[${FILENAME}] Error parsing JSON:`, parseError, 'Raw data:', rawData);
+                    throw new Error('Failed to parse JSON data');
+                }
+        
+                console.log(`[${FILENAME}] Parsed data:`, JSON.stringify(data, null, 2));
+        
+                if (!data || !data.bestPlan || !data.plans) {
+                    throw new Error('Invalid data structure received from the server');
+                }
+        
                 const bestPlanElement = document.getElementById('bestPlan');
-                bestPlanElement.querySelector('.card-body').innerHTML = `
+                if (!bestPlanElement) {
+                    throw new Error('Best plan element not found');
+                }
+        
+                const cardBody = bestPlanElement.querySelector('.card-body');
+                if (!cardBody) {
+                    throw new Error('Card body not found in best plan element');
+                }
+        
+                cardBody.innerHTML = `
                     <h3>${data.bestPlan.planName}</h3>
                     <p>Supplier: ${data.bestPlan.supplier}</p>
                     <p>Annual Cost: €${data.bestPlan.cost}</p>
                 `;
-
-                // Display all plans
+                console.log(`[${FILENAME}] Displayed best plan:`, JSON.stringify(data.bestPlan, null, 2));
+        
                 const allPlansElement = document.getElementById('allPlans');
+                if (!allPlansElement) {
+                    throw new Error('All plans element not found');
+                }
+        
+                if (!Array.isArray(data.plans)) {
+                    throw new Error('data.plans is not an array');
+                }
+        
                 data.plans.forEach(plan => {
                     const planElement = document.createElement('div');
                     planElement.className = 'card mb-3';
@@ -55,12 +93,18 @@
                         </div>
                     `;
                     allPlansElement.appendChild(planElement);
+                    console.log(`[${FILENAME}] Displayed plan:`, JSON.stringify(plan, null, 2));
                 });
+        
             } catch (error) {
-                console.error('Error parsing data:', error);
+                console.error(`[${FILENAME}] An error occurred during data processing:`, error.message, 'Stack trace:', error.stack);
                 const errorElement = document.getElementById('error');
-                errorElement.classList.remove('d-none');
-                errorElement.innerHTML = 'An error occurred while processing the data. Please try again later.';
+                if (errorElement) {
+                    errorElement.classList.remove('d-none');
+                    errorElement.innerHTML = `An error occurred: ${error.message}. Please try again later.`;
+                } else {
+                    console.error(`[${FILENAME}] Error element not found`);
+                }
             }
         });
     </script>
