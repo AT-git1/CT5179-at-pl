@@ -3,8 +3,7 @@
     "version": "1.0.0",
     "scripts": {
         "start:server": "cd backend && npm install && node server/server.js",
-        "start:client": "cd client && npm install && npm run build-sass && npm start",
-        "dev": "npm run start:client"
+        "start:client": "cd client && npm install && npm run build-sass && npm start"
     },
     "devDependencies": {
         "concurrently": "^8.2.2",
