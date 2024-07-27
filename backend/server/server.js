@@ -1,54 +1,73 @@
 import express from 'express';
-import {getPlans} from "./calc.js";
-import {getBestPlan} from "./calc.js";
+import { getPlans } from './calc.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const FILENAME = path.basename(__filename);
 
 const app = express();
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+//Todo: Amend this comment to reflect changes in functionality
 /**
- * This code defines an Express server that calculates and returns the best plan from a list of
- * dummy data based on cost, savings, and cash-back.
- * @param plans - The `plans` parameter in the code snippet refers to an array of plan objects. Each
- * plan object contains information such as cost, savings, and cash-back. The `getBestPlan` function
- * sorts these plan objects based on cost, savings, and cash-back to determine the best plan, and then
- * @returns The code snippet provided is an Express server that defines a POST route at '/api'. When a
- * POST request is made to this route, it calculates the best plan from the dummy data using the
- * `getBestPlan` function and returns a JSON response containing the best plan and the list of plans.
+ * Function to handle fetching and processing plans.
+ * @param {string} currentProvider - The current energy provider.
+ * @param {string} region - The region of the user.
+ * @param {number} householdSize - The size of the household.
+ * @param {number} kwhUsage - The kWh usage of the household.
+ * @returns {Object} - The result containing the best plan and the list of plans.
  */
+async function fetchAndProcessPlans(currentProvider, region, householdSize, kwhUsage) {
+    const providers = ["yuno", "pinergy", "elec", "energia", "sse", "flogas"].filter(p => p !== currentProvider);
+    console.log(`[${FILENAME}] Providers after filtering:`, providers);
 
-// Function to determine the best plan
-//Todo: unit test here
 
-// Replace the existing /api POST route to return dummy data with the best plan
-app.post('/api', express.json(), async (req, res) => {
-    const body = req.body;
+    const results = await getPlans(providers, region, householdSize, kwhUsage);
+    console.log(`[${FILENAME}] Plans retrieved:`, JSON.stringify(results, null, 2));
 
-    //Remove the current provider from the list of providers to scrape
-    let providers = ["yuno", "pinergy", "elec", "energia"];
-    const currentProvider = body.currentProvider;
-    if (currentProvider !== "none" && currentProvider !== "other") {
-        const indexToRemove = providers.indexOf(currentProvider);
-        providers.splice(indexToRemove, 1);
+    if (!results || !results.plans || results.plans.length === 0) {
+        throw new Error('No valid plans retrieved');
+
     }
 
-    const householdSize = body.householdSize;
-    const kwhUsage = body.kwhUsage;
-    const region = body.region;
+    return results;
+}
 
-    const plans = await getPlans(providers, region, householdSize, kwhUsage);
-    const bestPlan = getBestPlan(plans);
+// Route to handle API requests for plan comparison
+app.post('/api', async (req, res) => {
+    const { currentProvider, region, householdSize, kwhUsage } = req.body;
+    console.log(`[${FILENAME}] API request received with data:`, JSON.stringify(req.body, null, 2));
 
-
-    res.json({
-        bestPlan: bestPlan,
-        plans: plans
-    });
-
+    try {
+        const results = await fetchAndProcessPlans(currentProvider, region, householdSize, kwhUsage);
+        console.log(`[${FILENAME}] Sending response to client`);
+        res.json(results);
+    } catch (error) {
+        console.error(`[${FILENAME}] Error processing API request: ${error.message}`);
+        console.error(`[${FILENAME}] Error stack: ${error.stack}`);
+        res.status(500).json({ error: error.message });
+    }
 });
 
-//express on 3001
+// Route to handle form submissions for plan comparison
+app.post('/compare', async (req, res) => {
+    const { currentProvider, region, householdSize, kwhUsage } = req.body;
+
+    try {
+        const results = await fetchAndProcessPlans(currentProvider, region, householdSize, kwhUsage);
+        res.json(results);
+    } catch (error) {
+        console.error(`[${FILENAME}] Error processing form submission: ${error.message}`);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Start the Express server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+    console.log(`[${FILENAME}] Server running on port ${port}`);
 });

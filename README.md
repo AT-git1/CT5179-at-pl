@@ -1,6 +1,6 @@
 # EnerSave Application
 
-EnerSave is a web application designed to help users with 24-hour electricity meters compare smart electricity meter plans. It scrapes energy prices from various websites and displays the best plans in a table format based on user inputs.
+EnerSave is a web application designed to help users with 24-hour electricity meters compare electricity meter plans. It scrapes energy prices from various websites and displays the best plans in a table format based on user inputs.
 
 ## Getting Started
 

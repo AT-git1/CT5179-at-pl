@@ -1,6 +1,6 @@
 <h1 class="text-center mb-4">Electricity Comparison</h1>
 <form id="compareForm" class="row g-3 justify-content-center" action="/compare" method="POST">
-  <% if (errors.length > 0) { %>
+  <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
     <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
       <div class="alert alert-danger text-center error-message">
         <ul class="mb-0">
@@ -18,8 +18,8 @@
       <div class="col-md-8">
         <div class="input-group">
           <select id="region" name="region" class="form-select">
-            <option value="urban" <%= formData.region === 'urban' ? 'selected' : '' %>>Urban</option>
-            <option value="rural" <%= formData.region === 'rural' ? 'selected' : '' %>>Rural</option>
+            <option value="urban" <%= (typeof formData !== 'undefined' && formData.region === 'urban') ? 'selected' : '' %>>Urban</option>
+            <option value="rural" <%= (typeof formData !== 'undefined' && formData.region === 'rural') ? 'selected' : '' %>>Rural</option>
           </select>
         </div>
       </div>
@@ -35,12 +35,14 @@
       <div class="col-md-8">
         <div class="input-group">
           <select id="provider" name="provider" class="form-select">
-            <option value="none" <%= formData.provider === 'none' ? 'selected' : '' %>>None</option>
-            <option value="pinergy" <%= formData.provider === 'pinergy' ? 'selected' : '' %>>Pinergy</option>
-            <option value="energia" <%= formData.provider === 'energia' ? 'selected' : '' %>>Energia</option>
-            <option value="yuno" <%= formData.provider === 'yuno' ? 'selected' : '' %>>Yuno</option>
-            <option value="elec" <%= formData.provider === 'elec' ? 'selected' : '' %>>Electric Ireland</option>
-            <option value="other" <%= formData.provider === 'other' ? 'selected' : '' %>>Other</option>
+            <option value="none" <%= (typeof formData !== 'undefined' && formData.provider === 'none') ? 'selected' : '' %>>None</option>
+            <option value="pinergy" <%= (typeof formData !== 'undefined' && formData.provider === 'pinergy') ? 'selected' : '' %>>Pinergy</option>
+            <option value="energia" <%= (typeof formData !== 'undefined' && formData.provider === 'energia') ? 'selected' : '' %>>Energia</option>
+            <option value="yuno" <%= (typeof formData !== 'undefined' && formData.provider === 'yuno') ? 'selected' : '' %>>Yuno</option>
+            <option value="elec" <%= (typeof formData !== 'undefined' && formData.provider === 'elec') ? 'selected' : '' %>>Electric Ireland</option>
+            <option value="sse" <%= (typeof formData !== 'undefined' && formData.provider === 'sse') ? 'selected' : '' %>>SSE Airtricity</option>
+            <option value="flogas" <%= (typeof formData !== 'undefined' && formData.provider === 'flogas') ? 'selected' : '' %>>Flogas</option>
+            <option value="other" <%= (typeof formData !== 'undefined' && formData.provider === 'other') ? 'selected' : '' %>>Other</option>
           </select>
         </div>
       </div>
@@ -51,16 +53,16 @@
       <div class="col-md-8">
         <div class="input-group">
           <select id="usageType" name="usageType" class="form-select">
-            <option value="kwh" <%= formData.usageType === 'kwh' ? 'selected' : '' %>>I know how much kWh I consume</option>
-            <option value="unknown" <%= formData.usageType === 'unknown' ? 'selected' : '' %>>I'm unsure of my energy consumption</option>
+            <option value="kwh" <%= (typeof formData !== 'undefined' && formData.usageType === 'kwh') ? 'selected' : '' %>>I know how much kWh I consume</option>
+            <option value="unknown" <%= (typeof formData !== 'undefined' && formData.usageType === 'unknown') ? 'selected' : '' %>>I'm unsure of my energy consumption</option>
           </select>
         </div>
-        <div class="input-group mt-2" id="unknownContainer" style="<%= formData.usageType === 'unknown' ? 'display:flex;' : 'display:none;' %>">
-          <input type="number" id="householdSize" name="householdSize" class="form-control text-center" value="<%= formData.householdSize %>">
+        <div class="input-group mt-2" id="unknownContainer" style="display:none;">
+          <input type="number" id="householdSize" name="householdSize" class="form-control text-center" value="<%= (typeof formData !== 'undefined') ? formData.householdSize : '' %>">
           <span class="input-group-text col-auto">inhabitants</span>
         </div>
-        <div class="input-group mt-2" id="kwhAmountContainer" style="<%= formData.usageType === 'kwh' ? 'display:flex;' : 'display:flex;' %>">
-          <input type="number" id="kwhUsage" name="kwhUsage" class="form-control text-center" value="<%= formData.kwhUsage %>">
+        <div class="input-group mt-2" id="kwhAmountContainer" style="display:none;">
+          <input type="number" id="kwhUsage" name="kwhUsage" class="form-control text-center" value="<%= (typeof formData !== 'undefined') ? formData.kwhUsage : '' %>">
           <span class="input-group-text col-auto">kWh</span>
         </div>
       </div>
@@ -78,3 +80,64 @@
     </div>
   </div>
 </form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" async defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const usageTypeSelect = document.getElementById('usageType'); 
+    const unknownContainer = document.getElementById('unknownContainer'); 
+    const kwhAmountContainer = document.getElementById('kwhAmountContainer'); 
+    const householdSizeInput = document.getElementById('householdSize'); 
+    const kwhUsageInput = document.getElementById('kwhUsage'); 
+
+    // Logging function to trace errors
+    function logError(message) {
+        console.error(`Error: ${message}`);
+    }
+
+    // visibility of containers based on usage type
+    function updateVisibility() {
+        try {
+            console.log('Updating visibility based on usage type...');
+            if (usageTypeSelect.value === 'unknown') {
+                unknownContainer.style.display = 'flex'; // Show the unknown container
+                kwhAmountContainer.style.display = 'none'; // Hide the kWh amount container
+                kwhUsageInput.value = ''; // Clear the kWh usage input value
+            } else {
+                unknownContainer.style.display = 'none'; // Hide the unknown container
+                kwhAmountContainer.style.display = 'flex'; // Show the kWh amount container
+                householdSizeInput.value = ''; // Clear the household size input value
+            }
+            console.log('Visibility updated successfully.');
+        } catch (error) {
+            logError(`Failed to update visibility: ${error.message}`);
+        }
+    }
+
+    // Event listener for usage type selection
+    try {
+        usageTypeSelect.addEventListener('change', updateVisibility);
+        console.log('Event listener for usage type change added.');
+    } catch (error) {
+        logError(`Failed to add event listener: ${error.message}`);
+    }
+    updateVisibility();
+
+    // Form submission event listener
+    document.getElementById('compareForm').addEventListener('submit', function(e) {
+        try {
+            if (!this.checkValidity()) { 
+                e.preventDefault(); 
+                e.stopPropagation(); 
+                console.log('Form submission prevented due to invalid input.');
+            } else {
+                console.log('Form is valid, proceeding with submission.');
+            }
+            this.classList.add('was-validated'); // Add to the form for Bootstrap validation styling
+        } catch (error) {
+            logError(`Error during form submission: ${error.message}`);
+        }
+    });
+});
+
+</script>
