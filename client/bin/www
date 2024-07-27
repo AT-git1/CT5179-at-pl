@@ -12,7 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3001');
+var port = normalisePort(process.env.PORT || '3001');
 app.set('port', port);
 
 /**
@@ -33,7 +33,8 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
+function normalisePort(val) {
+  console.log(`normalisePort called with value: ${val}`); // Log function execution
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -54,6 +55,7 @@ function normalizePort(val) {
  */
 
 function onError(error) {
+  console.log(`onError called with error: ${error.message}`); // Log function execution
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -87,4 +89,20 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log(`Server is listening on ${bind}`); // Log function execution
 }
+
+/**
+ * Function to handle uncaught exceptions and unhandled promise rejections.
+ */
+
+function handleCrash(error) {
+  console.error('Server crashed due to an unhandled error:', error); // Log the error
+  process.exit(1); // Exit the process
+}
+
+// Listen for uncaught exceptions
+process.on('uncaughtException', handleCrash);
+
+// Listen for unhandled promise rejections
+process.on('unhandledRejection', handleCrash);

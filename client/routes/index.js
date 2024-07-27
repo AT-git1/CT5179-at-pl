@@ -3,6 +3,10 @@ const router = express.Router();
 const axios = require('axios');
 const { body, validationResult } = require('express-validator');
 const winstonLogger = require('../config/logger');
+const path = require('path');
+
+// Get the current filename
+const currentFileName = path.basename(__filename);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,34 +24,44 @@ router.post('/compare', [
   const formData = req.body;
 
   if (!errors.isEmpty()) {
-    return res.status(400).render('index', { title: 'Enersave - Electricity Price Comparator', formData, errors: errors.array() });
+      return res.status(400).render('index', { title: 'Enersave - Electricity Price Comparator', formData, errors: errors.array() });
   }
 
   try {
-    const apiData = {
-      currentProvider: formData.provider,
-      region: formData.region,
-      householdSize: formData.householdSize,
-      kwhUsage: formData.kwhUsage
-    };
+      const apiData = {
+          currentProvider: formData.provider,
+          region: formData.region,
+          householdSize: formData.householdSize,
+          kwhUsage: formData.kwhUsage
+      };
 
+      // Log the form submission with the filename
+      winstonLogger.info(`[${currentFileName}] Form submitted: ${JSON.stringify(formData)}`);
 
-    winstonLogger.info(`Form submitted: ${JSON.stringify(formData)}`); // Log form submission
+      const apiUrl = process.env.API_URL || 'http://enersave-prod-backend:3000/api';
+      
+      // Log the API request with the filename
+      winstonLogger.info(`[${currentFileName}] Sending API request to ${apiUrl} with data: ${JSON.stringify(apiData)}`);
+      
+      const response = await axios.post(apiUrl, apiData);
 
-    // Use the Docker service name for the backend API
-    const apiUrl = process.env.API_URL || 'http://enersave-prod-backend:3000/api';
-    const response = await axios.post(apiUrl, apiData);
-    winstonLogger.info(`API request sent to /api with data: ${JSON.stringify(apiData)}`); // Log API request
+      // Check the response status
+      if (response.status !== 200) {
+          throw new Error('Error in fetching data from the API');
+      }
 
-    if (response.status !== 200) {
-      throw new Error('Error in fetching data from the API');
-    }
-
-    winstonLogger.info(`API response received: ${JSON.stringify(response.data)}`); // Log API response
-    res.render('results', { title: 'Comparison Results', results: response.data }); // Render results page with API response
+      // Log the API response with the filename
+      winstonLogger.info(`[${currentFileName}] API response received: ${JSON.stringify(response.data)}`);
+      
+      // Render the results
+      res.render('results', { 
+          title: 'Comparison Results', 
+          results: response.data 
+      });
   } catch (error) {
-    winstonLogger.error(`Error in form submission: ${error.message}`); // Log error
-    next(error);
+      // Log the error with the filename
+      winstonLogger.error(`[${currentFileName}] Error in form submission: ${error.message}`);
+      next(error);
   }
 });
 
