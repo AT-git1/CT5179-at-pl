@@ -12,9 +12,9 @@ export function processPlans(plan, householdSize, kwhUsage) {
         usage = parseFloat(kwhUsage);
     } else {
         // Default values based on household size
-        if (householdSize == 1) {
+        if (householdSize === 1) {
             usage = 2900;
-        } else if (householdSize == 2) {
+        } else if (householdSize === 2) {
             usage = 4200;
         } else {
             usage = 5400;

@@ -21,11 +21,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - working-directory: ./backend/server
+    - name: Build backend
+      working-directory: ./backend
       run: npm ci
-    - working-directory: ./client
-      run: npm ci
-    - run: npm run build --if-present
+
     - name: Run backend unit tests
-      working-directory: ./backend/server
+      working-directory: ./backend
       run: npm test
