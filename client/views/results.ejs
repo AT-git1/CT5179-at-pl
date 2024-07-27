@@ -15,6 +15,10 @@
         .best-plan {
             border: 2px solid #28a745;
         }
+        .best-plan-hover:hover {
+            background-color: #e0ffe0; /* Light green background on hover */
+            transform: scale(1.05); /* Slightly larger on hover */
+        }
     </style>
 </head>
 <body>
@@ -22,7 +26,7 @@
         <h1 class="text-center mb-4">Electricity Comparison Results</h1>
         <% if (results) { %>
             <% if (results.bestPlan) { %>
-                <div id="bestPlan" class="card mb-4 best-plan">
+                <div id="bestPlan" class="card mb-4 best-plan best-plan-hover">
                     <div class="card-header bg-success text-white">
                         <h2 class="card-title m-0">Best Plan</h2>
                     </div>
