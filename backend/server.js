@@ -1,5 +1,5 @@
 import express from 'express';
-import { getPlans } from './calc.js';
+import { getPlans } from './server/calc.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 

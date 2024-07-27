@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 
-import puppeteerScrape from "../scraper.js";
+import puppeteerScrape from "../server/scraper.js";
 
-import {getPage} from "../parser.js";
-import {getPrices} from "../parser.js";
+import {getPage} from "../server/parser.js";
+import {getPrices} from "../server/parser.js";
 
-import {processPlans} from "../calc.js";
-import {getPlans} from "../calc.js";
+import {processPlans} from "../server/calc.js";
+import {getPlans} from "../server/calc.js";
 
-import {getBestPlan} from "../calc.js";
+import {getBestPlan} from "../server/calc.js";
 
 
 
@@ -95,18 +95,19 @@ describe('Plans extraction test', function() {
     it('returns an object', async function () {
         let plans = await getPlans(providers, region, householdSize, kwhUsage);
         expect(typeof plans).to.equal('object');
+
     });
     it('object contains as many elements as the number of providers', async function () {
         let plans = await getPlans(providers, region, householdSize, kwhUsage);
-        expect(plans.length).to.equal(providers.length);
+        expect(plans.plans.length).to.equal(providers.length);
     });
     it('plans contain all expected keys with cost >= 0', async function () {
         const householdSize = 2;
         const kwhUsage = 0;
         let plans = await getPlans(providers, region, householdSize, kwhUsage);
-        expect(plans[0].planName).to.not.be.null;
-        expect(plans[0].supplier).to.not.be.null;
-        expect(plans[0].cost).to.be.at.least(0);
+        expect(plans.plans[0].planName).to.not.be.null;
+        expect(plans.plans[0].supplier).to.not.be.null;
+        expect(plans.plans[0].cost).to.be.at.least(0);
     });
 });
 
