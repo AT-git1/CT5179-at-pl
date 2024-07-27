@@ -91,7 +91,10 @@ app.post('/compare', async (req, res) => {
         });
 
         // Redirect to results page with the API response data
-        const redirectUrl = `/results?data=${encodeURIComponent(JSON.stringify(apiResponse))}`;
+        const redirectUrl = `/results?data=${encodeURIComponent(JSON.stringify({
+            bestPlan: encodeURIComponent(JSON.stringify(apiResponse.bestPlan)),
+            plans: encodeURIComponent(JSON.stringify(apiResponse.plans))
+        }))}`;
         console.log(`[${FILENAME}] Redirect URL:`, redirectUrl);
         res.redirect(redirectUrl);
     } catch (error) {

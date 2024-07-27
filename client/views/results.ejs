@@ -3,110 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electricity Comparison Results</title>
+    <title><%= title %></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .plan-card {
+            transition: transform 0.2s;
+        }
+        .plan-card:hover {
+            transform: scale(1.02);
+        }
+        .best-plan {
+            border: 2px solid #28a745;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Electricity Comparison Results</h1>
-        <div id="bestPlan" class="card mb-4">
-            <div class="card-header">
-                <h2 class="card-title">Best Plan</h2>
+        <div id="error" class="alert alert-danger d-none" role="alert"></div>
+        <div id="bestPlan" class="card mb-4 best-plan">
+            <div class="card-header bg-success text-white">
+                <h2 class="card-title m-0">Best Plan</h2>
             </div>
             <div class="card-body">
-                <!-- Best plan details will be inserted here -->
+                <h3 class="card-title"> <%= results.bestPlan.planName %></h3>
+                <p class="card-text"><strong>Supplier:</strong> <%= results.bestPlan.supplier %></p>
+                <p class="card-text"><strong>Annual Cost:</strong> €<%= results.bestPlan.cost.toFixed(2) %></p>
             </div>
         </div>
         <h3>All Plans</h3>
-        <div id="allPlans">
-            <!-- All plans will be inserted here -->
-        </div>
-        <div id="error" class="alert alert-danger d-none" role="alert">
-            <!-- Error message will be inserted here -->
+        <div id="allPlans" class="row">
+            <% results.plans.forEach(function(plan) { %>
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100 plan-card <%= plan.planName === results.bestPlan.planName ? 'best-plan' : '' %>">
+                        <div class="card-body">
+                            <h4 class="card-title"><%= plan.planName %></h4>
+                            <p class="card-text"><strong>Supplier:</strong> <%= plan.supplier %></p>
+                            <p class="card-text"><strong>Annual Cost:</strong> €<%= plan.cost.toFixed(2) %></p>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const FILENAME = 'results.ejs'; // Define the filename
-
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                console.log(`[${FILENAME}] Starting data processing...`);
-                const queryString = window.location.search.slice(1);
-                const params = new URLSearchParams(queryString);
-                const rawData = params.get('data');
-                console.log(`[${FILENAME}] Raw URL parameter:`, rawData);
-        
-                if (!rawData) {
-                    throw new Error('No data received from the server');
-                }
-        
-                let data;
-                try {
-                    data = JSON.parse(decodeURIComponent(rawData));
-                } catch (parseError) {
-                    console.error(`[${FILENAME}] Error parsing JSON:`, parseError, 'Raw data:', rawData);
-                    throw new Error('Failed to parse JSON data');
-                }
-        
-                console.log(`[${FILENAME}] Parsed data:`, JSON.stringify(data, null, 2));
-        
-                if (!data || !data.bestPlan || !data.plans) {
-                    throw new Error('Invalid data structure received from the server');
-                }
-        
-                const bestPlanElement = document.getElementById('bestPlan');
-                if (!bestPlanElement) {
-                    throw new Error('Best plan element not found');
-                }
-        
-                const cardBody = bestPlanElement.querySelector('.card-body');
-                if (!cardBody) {
-                    throw new Error('Card body not found in best plan element');
-                }
-        
-                cardBody.innerHTML = `
-                    <h3>${data.bestPlan.planName}</h3>
-                    <p>Supplier: ${data.bestPlan.supplier}</p>
-                    <p>Annual Cost: €${data.bestPlan.cost}</p>
-                `;
-                console.log(`[${FILENAME}] Displayed best plan:`, JSON.stringify(data.bestPlan, null, 2));
-        
-                const allPlansElement = document.getElementById('allPlans');
-                if (!allPlansElement) {
-                    throw new Error('All plans element not found');
-                }
-        
-                if (!Array.isArray(data.plans)) {
-                    throw new Error('data.plans is not an array');
-                }
-        
-                data.plans.forEach(plan => {
-                    const planElement = document.createElement('div');
-                    planElement.className = 'card mb-3';
-                    planElement.innerHTML = `
-                        <div class="card-body">
-                            <h4>${plan.planName}</h4>
-                            <p>Supplier: ${plan.supplier}</p>
-                            <p>Annual Cost: €${plan.cost}</p>
-                        </div>
-                    `;
-                    allPlansElement.appendChild(planElement);
-                    console.log(`[${FILENAME}] Displayed plan:`, JSON.stringify(plan, null, 2));
-                });
-        
-            } catch (error) {
-                console.error(`[${FILENAME}] An error occurred during data processing:`, error.message, 'Stack trace:', error.stack);
-                const errorElement = document.getElementById('error');
-                if (errorElement) {
-                    errorElement.classList.remove('d-none');
-                    errorElement.innerHTML = `An error occurred: ${error.message}. Please try again later.`;
-                } else {
-                    console.error(`[${FILENAME}] Error element not found`);
-                }
-            }
-        });
-    </script>
 </body>
 </html>
