@@ -16,7 +16,6 @@ COPY client/package*.json ./client/
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/chromium
 
-
 # Install dependencies for the client
 WORKDIR /usr/src/app/client
 RUN npm install
