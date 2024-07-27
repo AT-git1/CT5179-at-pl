@@ -4,7 +4,10 @@ pipeline {
     environment {
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
         DOCKER_IMAGE_TAG = "latest"
-        EMAIL_RECIPIENT = 'manunited2006@gmail.com'
+    }
+
+    triggers {
+        githubPush()
     }
 
     stages {
