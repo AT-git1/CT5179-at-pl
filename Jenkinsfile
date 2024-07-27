@@ -9,6 +9,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    sh 'cd testdeploy'
+                    sh 'cd Docker'
+                    sh 'cd prod'
                     sh 'docker-compose up --build'
                 }
             }
