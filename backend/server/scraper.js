@@ -13,11 +13,14 @@ async function puppeteerScrape(provider, url) {
     await page.goto(url);
     
     switch (provider) {
+
         case "elec":
             console.log("Processing provider: elec");
             const pricingButtonSelector = '[onclick="showPricePlanCharges(\'ESE28\')"]';
             console.log(`Clicking on selector: ${pricingButtonSelector}`);
+            await page.waitForSelector(pricingButtonSelector);
             
+
             await page.evaluate((selector) => {
                 document.querySelector(selector).click();
             }, pricingButtonSelector);
@@ -31,15 +34,19 @@ async function puppeteerScrape(provider, url) {
             await browser.close();
             break;
 
-        case "placeholder":
-            console.log("Processing provider: placeholder");
+
+
+        case "sse" :
+            console.log("Processing provider: sse");
+            await page.waitForSelector(".home-body-container");
             scrapedPage = await page.content();
             console.log("Scraped content length: ", scrapedPage.length);
             await browser.close();
             break;
 
-        case "placeholder2":
-            console.log("Processing provider: placeholder2");
+        case "flogas" :
+            console.log("Processing provider: flogas");
+            await page.waitForSelector(".c-switch-price-plan-detail-tabs");
             scrapedPage = await page.content();
             console.log("Scraped content length: ", scrapedPage.length);
             await browser.close();

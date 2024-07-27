@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+//Todo: Amend this comment to reflect changes in functionality
 /**
  * Function to handle fetching and processing plans.
  * @param {string} currentProvider - The current energy provider.
@@ -21,14 +22,16 @@ app.use(express.json());
  * @returns {Object} - The result containing the best plan and the list of plans.
  */
 async function fetchAndProcessPlans(currentProvider, region, householdSize, kwhUsage) {
-    const providers = ['yuno', 'pinergy', 'elec', 'energia'].filter(p => p !== currentProvider);
+    const providers = ["yuno", "pinergy", "elec", "energia", "sse", "flogas"].filter(p => p !== currentProvider);
     console.log(`[${FILENAME}] Providers after filtering:`, providers);
+
 
     const results = await getPlans(providers, region, householdSize, kwhUsage);
     console.log(`[${FILENAME}] Plans retrieved:`, JSON.stringify(results, null, 2));
 
     if (!results || !results.plans || results.plans.length === 0) {
         throw new Error('No valid plans retrieved');
+
     }
 
     return results;

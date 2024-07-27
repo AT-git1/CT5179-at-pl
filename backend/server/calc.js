@@ -39,6 +39,7 @@ export function processPlans(plan, householdSize, kwhUsage) {
     }
 }
 
+// Function to determine the best plan
 export function getBestPlan(plans) {
     // Filter out plans with invalid costs
     const validPlans = plans.filter(plan => plan.cost !== null && isFinite(plan.cost));
