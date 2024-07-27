@@ -39,7 +39,7 @@ pipeline {
                         sh 'pwd'
                         // Debugging: List the contents of the current directory
                         sh 'ls -l'
-                        // Check if docker-compose.yml exists before running
+                        // Check if docker-compose.yml exists before running docker-compose commands
                         if (fileExists('docker-compose.yml')) {
                             try {
                                 sh 'docker-compose down -v --remove-orphans'
