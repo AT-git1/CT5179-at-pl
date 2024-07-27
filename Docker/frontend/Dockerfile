@@ -11,15 +11,11 @@ WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json for both client and backend
 COPY client/package*.json ./client/
-COPY backend/server/package*.json ./backend/server/
 
 # Skip puppeteer installation of chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/chromium
 
-# Install dependencies for the backend
-WORKDIR /usr/src/app/backend/server
-RUN npm install
 
 # Install dependencies for the client
 WORKDIR /usr/src/app/client
@@ -30,7 +26,6 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Expose the ports the app runs on
-EXPOSE 80
 EXPOSE 443
 
 # Define environment variables
