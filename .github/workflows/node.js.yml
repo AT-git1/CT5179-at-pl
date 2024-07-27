@@ -25,5 +25,6 @@ jobs:
       working-directory: ./backend/server
       run: npm ci
     - name: Run backend unit tests
+      working-directory: ./backend/server
       run: npm test
 
