@@ -7,7 +7,7 @@ pipeline {
                 script {
                     echo 'Checking out the code...'
                     checkout scmGit(
-                        branches: [[name: 'v4.11.x']],
+                        branches: [[name: 'main']],
                         userRemoteConfigs: [[
                             credentialsId: 'githubcredaccess',
                             url: 'ssh://github.com/DonLofto/testdeploy.git'
@@ -21,10 +21,10 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application...'
-                    sh 'cd testdeploy'
-                    sh 'cd Docker'
-                    sh 'cd prod'
-                    sh 'docker-compose up --build' 
+                    // Use the dir block to change to the correct directory
+                    dir('testdeploy/Docker/prod') {
+                        sh 'docker-compose up --build'
+                    }
                 }
             }
         }
