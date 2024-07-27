@@ -1,42 +1,15 @@
 pipeline {
-    agent any
-
-    environment {
-        DOCKER_COMPOSE_FILE = 'Docker/prod/docker-compose.yml'
-        DOCKERFILE = 'Docker/prod/Dockerfile'
-    }
-
+    agent any 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git url: 'https://github.com/DonLofto/testdeploy.git', credentialsId: 'githubcredaccess'
             }
         }
-
-        stage('Build Backend') {
+        stage('Build') {
             steps {
                 script {
-                    docker.build('enersave-prod-backend', "-f ${DOCKERFILE} --build-arg SERVICE=start:server .")
+                    sh 'docker-compose up --build'
                 }
             }
         }
-
-        stage('Build Frontend') {
-            steps {
-                script {
-                    docker.build('enersave-prod-frontend', "-f ${DOCKERFILE} --build-arg SERVICE=start:client .")
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    sh "docker-compose -f ${DOCKER_COMPOSE_FILE} up -d"
-                }
-            }
-        }
-    }
-
-
-}
