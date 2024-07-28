@@ -1,9 +1,9 @@
 import puppeteer from 'puppeteer-core';
-import chromium from "@sparticuz/chromium";
-
+import chromium from 'chromium';
 
 async function puppeteerScrape(provider, url) {
-    let executablePath = await chromium.executablePath;
+    let executablePath = chromium.path
+
     if (process.env.CHROMIUM === true) {
         executablePath = "/usr/bin/chromium";
     }
@@ -68,5 +68,9 @@ async function puppeteerScrape(provider, url) {
     
     return scrapedPage;
 }
+const provider = "sse";
+const url= "https://www.sseairtricity.com/ie/home/products/electricity-top-discount";
+let html = await puppeteerScrape(provider, url);
+console.log(html);
 
 export default puppeteerScrape;
