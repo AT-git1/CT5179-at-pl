@@ -12,6 +12,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3000
+      - CHROMIUM=true
     env_file:
       - .env
     volumes:

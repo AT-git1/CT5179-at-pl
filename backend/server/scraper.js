@@ -1,9 +1,17 @@
 import puppeteer from 'puppeteer';
+import chromium from "@sparticuz/chromium";
+
 
 async function puppeteerScrape(provider, url) {
+    let executablePath = await chromium.executablePath;
+    if (process.env.CHROMIUM === true) {
+        const executablePath = "/usr/bin/chromium";
+    }
     let scrapedPage;
+
     const browser = await puppeteer.launch({
-        args: ['--no-sandbox']
+        args: ['--no-sandbox'],
+        executablePath: executablePath
     });
     const page = await browser.newPage();
     
@@ -60,5 +68,8 @@ async function puppeteerScrape(provider, url) {
     
     return scrapedPage;
 }
-
+const provider = "sse";
+const url= "https://www.sseairtricity.com/ie/home/products/electricity-top-discount";
+let html = await puppeteerScrape(provider, url);
+console.log(html)
 export default puppeteerScrape;

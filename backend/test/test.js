@@ -87,7 +87,7 @@ describe('Annual Spend calculation test', function() {
 });
 
 describe('Plans extraction test', function() {
-    const providers = ["pinergy","elec"];
+    const providers = ["pinergy","flogas"];
     const region = "rural";
     const householdSize = 2;
     const kwhUsage = 0;

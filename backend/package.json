@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@sparticuz/chromium": "^106.0.2",
     "axios": "^1.7.2",
     "chai": "^4.5.0",
     "cheerio": "^1.0.0-rc.12",
