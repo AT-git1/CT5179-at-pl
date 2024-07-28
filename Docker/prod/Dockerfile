@@ -21,7 +21,7 @@ ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/chromium
 WORKDIR /usr/src/app/backend
 RUN npm install
 
-# Install dependencies for the client
+# Install dependencies for the client/frontend
 WORKDIR /usr/src/app/client
 RUN npm install
 

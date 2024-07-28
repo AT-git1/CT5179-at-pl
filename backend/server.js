@@ -37,7 +37,7 @@ async function fetchAndProcessPlans(currentProvider, region, householdSize, kwhU
     return results;
 }
 
-// Route to handle API requests for plan comparison
+// Route to handle API requests for plan comparison functionality
 app.post('/api', async (req, res) => {
     const { currentProvider, region, householdSize, kwhUsage } = req.body;
     console.log(`[${FILENAME}] API request received with data:`, JSON.stringify(req.body, null, 2));
