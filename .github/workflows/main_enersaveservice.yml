@@ -29,7 +29,7 @@ jobs:
 
       - name: get Chromium dependencies
         working-directory: backend
-        run: bash chromiumDep.sh
+        run: sudo bash chromiumDep.sh
 
       - name: Zip artifact for deployment
         working-directory: backend
