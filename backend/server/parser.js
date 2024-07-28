@@ -31,9 +31,6 @@ export async function getPage(provider) {
         case "sse":
             url = "https://www.sseairtricity.com/ie/home/products/electricity-top-discount";
             break;
-        case "flogas":
-            url = "https://www.flogas.ie/price-plans/residential/detail.html?fuelType=electricity&offerId=4&availability=new_customers";
-            break;
     }
     //Puppeteer scraping for dynamic pages
     if (provider === "elec" || provider === "sse" || provider === "flogas") {
