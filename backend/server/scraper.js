@@ -5,7 +5,7 @@ import chromium from "@sparticuz/chromium";
 async function puppeteerScrape(provider, url) {
     let executablePath = await chromium.executablePath;
     if (process.env.CHROMIUM === true) {
-        const executablePath = "/usr/bin/chromium";
+        executablePath = "/usr/bin/chromium";
     }
     let scrapedPage;
 
