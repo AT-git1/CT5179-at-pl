@@ -41,7 +41,6 @@ export function processPlans(plan, householdSize, kwhUsage) {
 
 // Function to determine the best plan
 export function getBestPlan(plans) {
-    // Filter out plans with invalid costs
     const validPlans = plans.filter(plan => plan.cost !== null && isFinite(plan.cost));
 
     if (validPlans.length === 0) {
@@ -49,10 +48,9 @@ export function getBestPlan(plans) {
         return null;
     }
 
-    // Sort valid plans by cost
-    validPlans.sort((a, b) => a.cost - b.cost);
 
-    // Return the best plan (first in the sorted list)
+    validPlans.sort((a, b) => Number(a.cost) - Number(b.cost));
+
     console.log(`[${FILENAME}] Best plan determined:`, JSON.stringify(validPlans[0], null, 2));
     return validPlans[0];
 }
@@ -64,26 +62,25 @@ export async function getPlans(providers, region, householdSize, kwhUsage) {
         let rawPlans = await getPrices(providers, region);
         console.log(`[${FILENAME}] Raw plans retrieved: ${JSON.stringify(rawPlans, null, 2)}`);
 
+        // Process each plan to calculate costs
         let processedPlans = rawPlans.map(plan => {
             let cost = processPlans(plan, householdSize, kwhUsage);
             console.log(`[${FILENAME}] Processed plan: ${plan.planName}, cost: ${cost}`);
-            return {...plan, cost};
+            return { ...plan, cost };
         }).filter(plan => plan.cost !== null);
 
         console.log(`[${FILENAME}] Processed plans: ${JSON.stringify(processedPlans, null, 2)}`);
 
-        if (processedPlans.length === 0) {
-            throw new Error('No valid plans retrieved after processing');
-        }
-
+        // Determine the best plan
         const bestPlan = getBestPlan(processedPlans);
-
         if (!bestPlan) {
-            throw new Error('Unable to determine best plan');
+            console.error(`[${FILENAME}] Unable to determine best plan.`);
         }
 
+        // Log the best plan for debugging
         console.log(`[${FILENAME}] Best plan determined: ${JSON.stringify(bestPlan, null, 2)}`);
-        return { plans: processedPlans, bestPlan };
+        // Return both plans and the best plan
+        return { plans: processedPlans, bestPlan: { bestPlan } };
     } catch (error) {
         console.error(`[${FILENAME}] Error in getPlans: ${error.message}`);
         throw error; // Re-throw the error to be handled by the caller
