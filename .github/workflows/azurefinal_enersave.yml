@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - EnerSaveApp
+name: Build and deploy Node.js app to Azure Web App - EnerSave
 
 on:
   push:
@@ -63,7 +63,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           working-directory: client
-          app-name: 'EnerSaveApp'
+          app-name: 'EnerSave'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F32E79DB66B84647B2E663DAA1BF685D }}
           package: .
