@@ -30,4 +30,4 @@ jobs:
       working-directory: ./backend
       run: npm test
       env:
-        GITHUB: 1
+        GIT: 1

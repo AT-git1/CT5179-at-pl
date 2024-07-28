@@ -4,7 +4,7 @@ import chromium from 'chromium';
 
 async function puppeteerScrape(provider, url) {
     let isDocker = process.env.DOCKER;
-    let isGit = process.env.GITHUB;
+    let isGit = process.env.GIT;
     let scrapedPage;
     let executablePath;
 
