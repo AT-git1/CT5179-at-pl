@@ -4,10 +4,9 @@
 name: Build and deploy Node.js app to Azure Web App - EnerSaveService
 
 on:
-  pull_request:
+  push:
     branches: [ 'main' ]
     paths: [ 'backend/**' ]
-    types: ['closed']
   workflow_dispatch:
 
 jobs:
@@ -27,6 +26,10 @@ jobs:
         run: |
           npm install
           npm run build --if-present
+
+      - name: get Chromium dependencies
+        working-directory: backend
+        run: bash chromiumDep.sh
 
       - name: Zip artifact for deployment
         working-directory: backend
