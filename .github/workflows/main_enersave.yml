@@ -4,9 +4,10 @@
 name: Build and deploy Node.js app to Azure Web App - EnerSave
 
 on:
-  push:
-    branches:
-      - azureTest
+  pull_request:
+    branches: [ 'main' ]
+    paths: [ 'client/**' ]
+    types: ['closed']
   workflow_dispatch:
 
 jobs:
