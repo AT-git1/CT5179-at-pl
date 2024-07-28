@@ -1,9 +1,17 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from 'chromium';
 
 async function puppeteerScrape(provider, url) {
+    let executablePath = chromium.path
+
+    if (process.env.CHROMIUM === true) {
+        executablePath = "/usr/bin/chromium";
+    }
     let scrapedPage;
+
     const browser = await puppeteer.launch({
-        args: ['--no-sandbox']
+        args: ['--no-sandbox'],
+        executablePath: executablePath
     });
     const page = await browser.newPage();
     
