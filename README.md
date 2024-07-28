@@ -36,5 +36,3 @@ Follow these steps to get your development environment running:
 
 
 ``` https://localhost:3001 ```
-
-
