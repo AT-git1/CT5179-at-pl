@@ -4,10 +4,11 @@ import chromium from 'chromium';
 
 async function puppeteerScrape(provider, url) {
     let isDocker = process.env.DOCKER;
+    let isGit = process.env.GITHUB;
     let scrapedPage;
     let executablePath;
 
-    if (isDocker) {
+    if (isDocker || isGit) {
         executablePath = "/usr/bin/chromium";
     }
     else {
