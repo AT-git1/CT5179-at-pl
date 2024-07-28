@@ -38,7 +38,7 @@ router.post('/compare', [
       // Log the form submission with the filename
       winstonLogger.info(`[${currentFileName}] Form submitted: ${JSON.stringify(formData)}`);
 
-      const apiUrl = process.env.API_URL || 'https://enersaveapi.azurewebsites.net/api';
+      const apiUrl = process.env.API_URL || 'https://enersaveservice.azurewebsites.net/api';
       
       // Log the API request with the filename
       winstonLogger.info(`[${currentFileName}] Sending API request to ${apiUrl} with data: ${JSON.stringify(apiData)}`);

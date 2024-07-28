@@ -14,7 +14,7 @@ import {getBestPlan} from "../server/calc.js";
 
 
 describe('Puppeteer scraping test', function() {
-    this.timeout(5000);
+    this.timeout(10000);
     it('returns valid HTML', async function () {
         const provider = "sse";
         const url= "https://www.sseairtricity.com/ie/home/products/electricity-top-discount";
@@ -91,7 +91,7 @@ describe('Plans extraction test', function() {
     const region = "rural";
     const householdSize = 2;
     const kwhUsage = 0;
-    this.timeout(5000);
+    this.timeout(10000);
     it('returns an object', async function () {
         let plans = await getPlans(providers, region, householdSize, kwhUsage);
         expect(typeof plans).to.equal('object');
