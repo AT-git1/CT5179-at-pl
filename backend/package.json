@@ -4,6 +4,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
+    "start": "bash chromiumDep.sh && node server.js",
     "test": "mocha --exit"
   },
   "author": "",
