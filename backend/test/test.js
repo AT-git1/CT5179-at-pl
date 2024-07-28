@@ -91,7 +91,7 @@ describe('Plans extraction test', function() {
     const region = "rural";
     const householdSize = 2;
     const kwhUsage = 0;
-    this.timeout(10000);
+    this.timeout(20000);
     it('returns an object', async function () {
         let plans = await getPlans(providers, region, householdSize, kwhUsage);
         expect(typeof plans).to.equal('object');

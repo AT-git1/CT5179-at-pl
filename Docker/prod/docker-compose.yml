@@ -12,7 +12,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3000
-      - CHROMIUM=true
+      - DOCKER=1
     env_file:
       - .env
     volumes:
@@ -32,6 +32,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3001
+      - DOCKER=1
       - API_URL=http://enersave-prod-backend:3000/api
     env_file:
       - .env

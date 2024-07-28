@@ -1,13 +1,19 @@
 import puppeteer from 'puppeteer-core';
 import chromium from 'chromium';
 
-async function puppeteerScrape(provider, url) {
-    let executablePath = chromium.path
 
-    if (process.env.CHROMIUM === true) {
+async function puppeteerScrape(provider, url) {
+    let isDocker = process.env.DOCKER;
+    let isGit = process.env.GITHUB;
+    let scrapedPage;
+    let executablePath;
+
+    if (isDocker || isGit) {
         executablePath = "/usr/bin/chromium";
     }
-    let scrapedPage;
+    else {
+        executablePath = chromium.path;
+    }
 
     const browser = await puppeteer.launch({
         args: ['--no-sandbox'],
