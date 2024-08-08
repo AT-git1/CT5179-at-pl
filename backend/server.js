@@ -37,7 +37,7 @@ async function fetchAndProcessPlans(currentProvider, region, householdSize, kwhU
     return results;
 }
 
-// Route to handle API requests for plan comparison functionality
+// Route to handle API requests for plan comparison functionality TEST
 app.post('/api', async (req, res) => {
     const { currentProvider, region, householdSize, kwhUsage } = req.body;
     console.log(`[${FILENAME}] API request received with data:`, JSON.stringify(req.body, null, 2));
@@ -66,7 +66,7 @@ app.post('/compare', async (req, res) => {
     }
 });
 
-// Start the Express server
+// Start the Express.js server
 const port = process.env.PORT || 80;
 app.listen(port, () => {
     console.log(`[${FILENAME}] Server running on port ${port}`);
