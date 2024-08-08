@@ -66,7 +66,7 @@ app.post('/compare', async (req, res) => {
     }
 });
 
-// Start the Express server
+// Start the Express.js server
 const port = process.env.PORT || 80;
 app.listen(port, () => {
     console.log(`[${FILENAME}] Server running on port ${port}`);
