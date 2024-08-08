@@ -14,7 +14,7 @@ import {getBestPlan} from "../server/calc.js";
 
 
 describe('Puppeteer scraping test', function() {
-    this.timeout(10000);
+    this.timeout(20000);
     it('returns valid HTML', async function () {
         const provider = "sse";
         const url= "https://www.sseairtricity.com/ie/home/products/electricity-top-discount";
